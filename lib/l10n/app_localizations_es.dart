@@ -260,4 +260,41 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String get helpText =>
       'El texto (T) escribe donde haces clic, con el color y el tamaño elegidos, con o sin serifa. Enter pone el texto en el dibujo, Shift+Enter empieza una línea nueva y Esc lo descarta; hacer clic en otro lugar también lo termina.';
+
+  @override
+  String get imageMenu => 'Imagen';
+
+  @override
+  String get resize => 'Cambiar tamaño';
+
+  @override
+  String get sheetSize => 'Tamaño de la hoja';
+
+  @override
+  String get rotateRight => 'Girar a la derecha';
+
+  @override
+  String get rotateLeft => 'Girar a la izquierda';
+
+  @override
+  String get rotateHalf => 'Girar 180°';
+
+  @override
+  String get flipHorizontal => 'Voltear horizontalmente';
+
+  @override
+  String get flipVertical => 'Voltear verticalmente';
+
+  @override
+  String get crop => 'Recortar a la selección';
+
+  @override
+  String get keepRatio => 'Mantener la proporción';
+
+  @override
+  String get apply => 'Aplicar';
+
+  @override
+  String get helpImage =>
+      'El menú Imagen de la barra cambia el tamaño, gira y voltea la selección, o todo el dibujo cuando no hay nada seleccionado. Tamaño de la hoja añade papel o corta los bordes sin estirar, y Recortar deja solo lo seleccionado. Ctrl+W cambia el tamaño, Ctrl+E cambia la hoja, Ctrl+R y Ctrl+Shift+R giran y Ctrl+Shift+X recorta.';
 }

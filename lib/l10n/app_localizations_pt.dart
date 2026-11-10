@@ -260,4 +260,41 @@ class AppLocalizationsPt extends AppLocalizations {
   @override
   String get helpText =>
       'O texto (T) escreve onde você clicar, na cor e no tamanho escolhidos, com ou sem serifa. Enter põe o texto no desenho, Shift+Enter começa uma nova linha e Esc desiste; clicar em outro lugar também termina o texto.';
+
+  @override
+  String get imageMenu => 'Imagem';
+
+  @override
+  String get resize => 'Redimensionar';
+
+  @override
+  String get sheetSize => 'Tamanho da folha';
+
+  @override
+  String get rotateRight => 'Girar para a direita';
+
+  @override
+  String get rotateLeft => 'Girar para a esquerda';
+
+  @override
+  String get rotateHalf => 'Girar 180°';
+
+  @override
+  String get flipHorizontal => 'Espelhar na horizontal';
+
+  @override
+  String get flipVertical => 'Espelhar na vertical';
+
+  @override
+  String get crop => 'Recortar pela seleção';
+
+  @override
+  String get keepRatio => 'Manter a proporção';
+
+  @override
+  String get apply => 'Aplicar';
+
+  @override
+  String get helpImage =>
+      'O menu Imagem, na barra, redimensiona, gira e espelha a seleção, ou o desenho inteiro quando nada está selecionado. Tamanho da folha acrescenta papel ou corta as bordas sem esticar, e Recortar deixa só o que está selecionado. Ctrl+W redimensiona, Ctrl+E muda a folha, Ctrl+R e Ctrl+Shift+R giram e Ctrl+Shift+X recorta.';
 }

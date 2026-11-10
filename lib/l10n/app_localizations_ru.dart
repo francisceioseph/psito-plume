@@ -260,4 +260,41 @@ class AppLocalizationsRu extends AppLocalizations {
   @override
   String get helpText =>
       'Текст (T) пишет там, где вы щёлкнули, выбранным цветом и размером, с засечками или без. Enter переносит текст в рисунок, Shift+Enter начинает новую строку, а Esc отменяет; щелчок в другом месте тоже завершает текст.';
+
+  @override
+  String get imageMenu => 'Изображение';
+
+  @override
+  String get resize => 'Изменить размер';
+
+  @override
+  String get sheetSize => 'Размер листа';
+
+  @override
+  String get rotateRight => 'Повернуть вправо';
+
+  @override
+  String get rotateLeft => 'Повернуть влево';
+
+  @override
+  String get rotateHalf => 'Повернуть на 180°';
+
+  @override
+  String get flipHorizontal => 'Отразить по горизонтали';
+
+  @override
+  String get flipVertical => 'Отразить по вертикали';
+
+  @override
+  String get crop => 'Обрезать по выделению';
+
+  @override
+  String get keepRatio => 'Сохранять пропорции';
+
+  @override
+  String get apply => 'Применить';
+
+  @override
+  String get helpImage =>
+      'Меню «Изображение» на панели меняет размер, поворачивает и отражает выделение или весь рисунок, если ничего не выделено. «Размер листа» добавляет бумагу или обрезает края без растягивания, а «Обрезать» оставляет только выделенное. Ctrl+W меняет размер, Ctrl+E меняет лист, Ctrl+R и Ctrl+Shift+R поворачивают, а Ctrl+Shift+X обрезает.';
 }

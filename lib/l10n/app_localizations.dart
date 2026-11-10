@@ -563,6 +563,78 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'The text tool (T) writes where you click, in the colour and size chosen, with or without serifs. Enter puts the text in the drawing, Shift+Enter starts a new line and Escape gives up; clicking elsewhere also finishes it.'**
   String get helpText;
+
+  /// No description provided for @imageMenu.
+  ///
+  /// In en, this message translates to:
+  /// **'Image'**
+  String get imageMenu;
+
+  /// No description provided for @resize.
+  ///
+  /// In en, this message translates to:
+  /// **'Resize'**
+  String get resize;
+
+  /// No description provided for @sheetSize.
+  ///
+  /// In en, this message translates to:
+  /// **'Sheet size'**
+  String get sheetSize;
+
+  /// No description provided for @rotateRight.
+  ///
+  /// In en, this message translates to:
+  /// **'Rotate right'**
+  String get rotateRight;
+
+  /// No description provided for @rotateLeft.
+  ///
+  /// In en, this message translates to:
+  /// **'Rotate left'**
+  String get rotateLeft;
+
+  /// No description provided for @rotateHalf.
+  ///
+  /// In en, this message translates to:
+  /// **'Rotate 180°'**
+  String get rotateHalf;
+
+  /// No description provided for @flipHorizontal.
+  ///
+  /// In en, this message translates to:
+  /// **'Flip horizontally'**
+  String get flipHorizontal;
+
+  /// No description provided for @flipVertical.
+  ///
+  /// In en, this message translates to:
+  /// **'Flip vertically'**
+  String get flipVertical;
+
+  /// No description provided for @crop.
+  ///
+  /// In en, this message translates to:
+  /// **'Crop to the selection'**
+  String get crop;
+
+  /// No description provided for @keepRatio.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep the proportion'**
+  String get keepRatio;
+
+  /// No description provided for @apply.
+  ///
+  /// In en, this message translates to:
+  /// **'Apply'**
+  String get apply;
+
+  /// No description provided for @helpImage.
+  ///
+  /// In en, this message translates to:
+  /// **'The image menu in the bar resizes, rotates and flips the selection, or the whole drawing when nothing is selected. Sheet size adds paper or cuts the edges without stretching, and Crop keeps only what is selected. Ctrl+W resizes, Ctrl+E changes the sheet, Ctrl+R and Ctrl+Shift+R rotate and Ctrl+Shift+X crops.'**
+  String get helpImage;
 }
 
 class _AppLocalizationsDelegate

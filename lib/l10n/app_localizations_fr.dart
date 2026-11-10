@@ -263,4 +263,41 @@ class AppLocalizationsFr extends AppLocalizations {
   @override
   String get helpText =>
       'Le texte (T) écrit là où vous cliquez, dans la couleur et la taille choisies, avec ou sans empattements. Entrée place le texte dans le dessin, Maj+Entrée commence une nouvelle ligne et Échap l’abandonne ; cliquer ailleurs le termine aussi.';
+
+  @override
+  String get imageMenu => 'Image';
+
+  @override
+  String get resize => 'Redimensionner';
+
+  @override
+  String get sheetSize => 'Taille de la feuille';
+
+  @override
+  String get rotateRight => 'Pivoter à droite';
+
+  @override
+  String get rotateLeft => 'Pivoter à gauche';
+
+  @override
+  String get rotateHalf => 'Pivoter de 180°';
+
+  @override
+  String get flipHorizontal => 'Retourner horizontalement';
+
+  @override
+  String get flipVertical => 'Retourner verticalement';
+
+  @override
+  String get crop => 'Rogner à la sélection';
+
+  @override
+  String get keepRatio => 'Garder les proportions';
+
+  @override
+  String get apply => 'Appliquer';
+
+  @override
+  String get helpImage =>
+      'Le menu Image de la barre redimensionne, fait pivoter et retourne la sélection, ou tout le dessin quand rien n’est sélectionné. Taille de la feuille ajoute du papier ou coupe les bords sans étirer, et Rogner ne garde que la sélection. Ctrl+W redimensionne, Ctrl+E change la feuille, Ctrl+R et Ctrl+Maj+R font pivoter et Ctrl+Maj+X rogne.';
 }

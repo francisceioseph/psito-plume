@@ -259,4 +259,41 @@ class AppLocalizationsZh extends AppLocalizations {
   @override
   String get helpText =>
       '文字工具（T）会在你点击的地方写字，使用选定的颜色和大小，可以选有衬线或无衬线字体。按 Enter 把文字放进画里，Shift+Enter 换行，Esc 放弃；在别处点击也会完成输入。';
+
+  @override
+  String get imageMenu => '图像';
+
+  @override
+  String get resize => '调整大小';
+
+  @override
+  String get sheetSize => '画纸大小';
+
+  @override
+  String get rotateRight => '向右旋转';
+
+  @override
+  String get rotateLeft => '向左旋转';
+
+  @override
+  String get rotateHalf => '旋转 180°';
+
+  @override
+  String get flipHorizontal => '水平翻转';
+
+  @override
+  String get flipVertical => '垂直翻转';
+
+  @override
+  String get crop => '裁剪到选区';
+
+  @override
+  String get keepRatio => '保持比例';
+
+  @override
+  String get apply => '应用';
+
+  @override
+  String get helpImage =>
+      '工具栏上的“图像”菜单可以调整选区的大小、旋转和翻转选区；没有选区时作用于整幅画。“画纸大小”会添加纸张或裁掉边缘而不拉伸，“裁剪”只保留选中的部分。Ctrl+W 调整大小，Ctrl+E 修改画纸，Ctrl+R 和 Ctrl+Shift+R 旋转，Ctrl+Shift+X 裁剪。';
 }

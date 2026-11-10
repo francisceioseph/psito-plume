@@ -12,6 +12,7 @@ import 'pixels.dart';
 
 part 'selection.dart';
 part 'text_draft.dart';
+part 'transform.dart';
 
 const defaultWidth = 800;
 const defaultHeight = 600;

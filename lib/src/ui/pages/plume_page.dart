@@ -13,6 +13,7 @@ import '../../platform/close_guard.dart';
 import '../../paint/plume_controller.dart';
 import '../atoms/colors.dart';
 import '../labels.dart';
+import '../molecules/image_menu_button.dart';
 import '../organisms/canvas_view.dart';
 import '../organisms/dialogs.dart';
 import '../organisms/palette_bar.dart';
@@ -203,6 +204,16 @@ class _PlumePageState extends State<PlumePage> {
       const SingleActivator(LogicalKeyboardKey.keyA, control: true):
           c.selectAll,
       const SingleActivator(LogicalKeyboardKey.delete): c.deleteSelection,
+      const SingleActivator(LogicalKeyboardKey.keyW, control: true): () =>
+          _imageAction(ImageAction.resize),
+      const SingleActivator(LogicalKeyboardKey.keyE, control: true): () =>
+          _imageAction(ImageAction.sheetSize),
+      const SingleActivator(LogicalKeyboardKey.keyR, control: true): () =>
+          _imageAction(ImageAction.rotateRight),
+      const SingleActivator(LogicalKeyboardKey.keyR, control: true, shift: true):
+          () => _imageAction(ImageAction.rotateLeft),
+      const SingleActivator(LogicalKeyboardKey.keyX, control: true, shift: true):
+          () => _imageAction(ImageAction.crop),
       const SingleActivator(LogicalKeyboardKey.escape): c.dropSelection,
       // The letters pick tools, except while a text is being typed.
       for (final tool in Tool.values)
@@ -210,6 +221,45 @@ class _PlumePageState extends State<PlumePage> {
           if (c.textDraft == null) c.setTool(tool);
         },
     };
+  }
+
+  Future<void> _imageAction(ImageAction action) async {
+    final c = _controller;
+    final l10n = context.l10n;
+    switch (action) {
+      case ImageAction.resize:
+        final from = c.resizableSize;
+        final size = await askImageSize(
+          context,
+          title: l10n.resize,
+          width: from.width.round(),
+          height: from.height.round(),
+          action: l10n.apply,
+          keepRatio: true,
+        );
+        if (size != null) await c.resize(size.$1, size.$2);
+      case ImageAction.sheetSize:
+        final size = await askImageSize(
+          context,
+          title: l10n.sheetSize,
+          width: c.width,
+          height: c.height,
+          action: l10n.apply,
+        );
+        if (size != null) await c.resizeSheet(size.$1, size.$2);
+      case ImageAction.rotateRight:
+        await c.turn(Turn.right);
+      case ImageAction.rotateLeft:
+        await c.turn(Turn.left);
+      case ImageAction.rotateHalf:
+        await c.turn(Turn.half);
+      case ImageAction.flipHorizontal:
+        await c.turn(Turn.flipHorizontal);
+      case ImageAction.flipVertical:
+        await c.turn(Turn.flipVertical);
+      case ImageAction.crop:
+        await c.cropToSelection();
+    }
   }
 
   Future<void> _paste() async {
@@ -254,6 +304,7 @@ class _PlumePageState extends State<PlumePage> {
                   controller: c,
                   files: files,
                   menu: _editMenu(),
+                  onImageAction: _imageAction,
                 ),
                 toolbox: Toolbox(controller: c),
                 canvas: CanvasView(controller: c),

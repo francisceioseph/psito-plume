@@ -182,4 +182,21 @@ void main() {
     expect(await closes, isTrue);
     await finish(tester);
   });
+
+  testWidgets('resizing keeps the proportion', (tester) async {
+    final c = await pumpScreen(tester);
+    await tester.sendKeyDownEvent(LogicalKeyboardKey.controlLeft);
+    await tester.sendKeyEvent(LogicalKeyboardKey.keyW);
+    await tester.sendKeyUpEvent(LogicalKeyboardKey.controlLeft);
+    await tester.pumpAndSettle();
+    expect(find.text('Manter a proporção'), findsOneWidget);
+    await tester.enterText(find.byType(TextField).first, '600');
+    await tester.pump();
+    expect(find.text('400'), findsOneWidget);
+    await tester.tap(find.text('Aplicar'));
+    await tester.pump();
+    await settle(tester, c);
+    expect((c.width, c.height), (600, 400));
+    await finish(tester);
+  });
 }

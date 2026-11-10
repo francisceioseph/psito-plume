@@ -262,4 +262,41 @@ class AppLocalizationsDe extends AppLocalizations {
   @override
   String get helpText =>
       'Das Textwerkzeug (T) schreibt dort, wo du klickst, in der gewählten Farbe und Größe, mit oder ohne Serifen. Enter setzt den Text in die Zeichnung, Umschalt+Enter beginnt eine neue Zeile und Esc verwirft ihn; ein Klick an anderer Stelle beendet ihn ebenfalls.';
+
+  @override
+  String get imageMenu => 'Bild';
+
+  @override
+  String get resize => 'Größe ändern';
+
+  @override
+  String get sheetSize => 'Blattgröße';
+
+  @override
+  String get rotateRight => 'Nach rechts drehen';
+
+  @override
+  String get rotateLeft => 'Nach links drehen';
+
+  @override
+  String get rotateHalf => 'Um 180° drehen';
+
+  @override
+  String get flipHorizontal => 'Horizontal spiegeln';
+
+  @override
+  String get flipVertical => 'Vertikal spiegeln';
+
+  @override
+  String get crop => 'Auf Auswahl zuschneiden';
+
+  @override
+  String get keepRatio => 'Seitenverhältnis beibehalten';
+
+  @override
+  String get apply => 'Anwenden';
+
+  @override
+  String get helpImage =>
+      'Das Bildmenü in der Leiste ändert die Größe der Auswahl, dreht und spiegelt sie, oder die ganze Zeichnung, wenn nichts ausgewählt ist. Blattgröße fügt Papier hinzu oder schneidet die Ränder ab, ohne zu strecken, und Zuschneiden behält nur die Auswahl. Strg+W ändert die Größe, Strg+E das Blatt, Strg+R und Strg+Umschalt+R drehen und Strg+Umschalt+X schneidet zu.';
 }

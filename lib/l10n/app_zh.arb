@@ -75,5 +75,17 @@
   "fontSans": "无衬线字体",
   "fontSerif": "衬线字体",
   "typeHere": "在此输入",
-  "helpText": "文字工具（T）会在你点击的地方写字，使用选定的颜色和大小，可以选有衬线或无衬线字体。按 Enter 把文字放进画里，Shift+Enter 换行，Esc 放弃；在别处点击也会完成输入。"
+  "helpText": "文字工具（T）会在你点击的地方写字，使用选定的颜色和大小，可以选有衬线或无衬线字体。按 Enter 把文字放进画里，Shift+Enter 换行，Esc 放弃；在别处点击也会完成输入。",
+  "imageMenu": "图像",
+  "resize": "调整大小",
+  "sheetSize": "画纸大小",
+  "rotateRight": "向右旋转",
+  "rotateLeft": "向左旋转",
+  "rotateHalf": "旋转 180°",
+  "flipHorizontal": "水平翻转",
+  "flipVertical": "垂直翻转",
+  "crop": "裁剪到选区",
+  "keepRatio": "保持比例",
+  "apply": "应用",
+  "helpImage": "工具栏上的“图像”菜单可以调整选区的大小、旋转和翻转选区；没有选区时作用于整幅画。“画纸大小”会添加纸张或裁掉边缘而不拉伸，“裁剪”只保留选中的部分。Ctrl+W 调整大小，Ctrl+E 修改画纸，Ctrl+R 和 Ctrl+Shift+R 旋转，Ctrl+Shift+X 裁剪。"
 }

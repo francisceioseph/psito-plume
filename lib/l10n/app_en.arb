@@ -154,5 +154,17 @@
   "fontSans": "Sans serif font",
   "fontSerif": "Serif font",
   "typeHere": "Type here",
-  "helpText": "The text tool (T) writes where you click, in the colour and size chosen, with or without serifs. Enter puts the text in the drawing, Shift+Enter starts a new line and Escape gives up; clicking elsewhere also finishes it."
+  "helpText": "The text tool (T) writes where you click, in the colour and size chosen, with or without serifs. Enter puts the text in the drawing, Shift+Enter starts a new line and Escape gives up; clicking elsewhere also finishes it.",
+  "imageMenu": "Image",
+  "resize": "Resize",
+  "sheetSize": "Sheet size",
+  "rotateRight": "Rotate right",
+  "rotateLeft": "Rotate left",
+  "rotateHalf": "Rotate 180°",
+  "flipHorizontal": "Flip horizontally",
+  "flipVertical": "Flip vertically",
+  "crop": "Crop to the selection",
+  "keepRatio": "Keep the proportion",
+  "apply": "Apply",
+  "helpImage": "The image menu in the bar resizes, rotates and flips the selection, or the whole drawing when nothing is selected. Sheet size adds paper or cuts the edges without stretching, and Crop keeps only what is selected. Ctrl+W resizes, Ctrl+E changes the sheet, Ctrl+R and Ctrl+Shift+R rotate and Ctrl+Shift+X crops."
 }

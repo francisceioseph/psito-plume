@@ -5,6 +5,7 @@ import '../../paint/plume_controller.dart';
 import '../atoms/bar_button.dart';
 import '../atoms/colors.dart';
 import '../molecules/drawing_title.dart';
+import '../molecules/image_menu_button.dart';
 import '../molecules/zoom_controls.dart';
 import 'dialogs.dart';
 
@@ -37,6 +38,7 @@ class TopBar extends StatelessWidget {
     super.key,
     required this.controller,
     required this.files,
+    required this.onImageAction,
     this.menu = const [],
   });
 
@@ -47,6 +49,8 @@ class TopBar extends StatelessWidget {
 
   /// More actions of the page, shown in the menu before the help.
   final List<MenuAction> menu;
+
+  final ValueChanged<ImageAction> onImageAction;
 
   @override
   Widget build(BuildContext context) {
@@ -104,6 +108,10 @@ class TopBar extends StatelessWidget {
                 tooltip: '${l10n.redo}  (Ctrl+Y)',
                 icon: Icons.redo_rounded,
                 onPressed: c.canRedo ? c.redo : null,
+              ),
+              ImageMenuButton(
+                onSelected: onImageAction,
+                canCrop: c.selectedRect != null,
               ),
               const SizedBox(width: 10),
               ZoomControls(

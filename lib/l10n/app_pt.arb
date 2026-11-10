@@ -75,5 +75,17 @@
   "fontSans": "Fonte sem serifa",
   "fontSerif": "Fonte com serifa",
   "typeHere": "Digite aqui",
-  "helpText": "O texto (T) escreve onde você clicar, na cor e no tamanho escolhidos, com ou sem serifa. Enter põe o texto no desenho, Shift+Enter começa uma nova linha e Esc desiste; clicar em outro lugar também termina o texto."
+  "helpText": "O texto (T) escreve onde você clicar, na cor e no tamanho escolhidos, com ou sem serifa. Enter põe o texto no desenho, Shift+Enter começa uma nova linha e Esc desiste; clicar em outro lugar também termina o texto.",
+  "imageMenu": "Imagem",
+  "resize": "Redimensionar",
+  "sheetSize": "Tamanho da folha",
+  "rotateRight": "Girar para a direita",
+  "rotateLeft": "Girar para a esquerda",
+  "rotateHalf": "Girar 180°",
+  "flipHorizontal": "Espelhar na horizontal",
+  "flipVertical": "Espelhar na vertical",
+  "crop": "Recortar pela seleção",
+  "keepRatio": "Manter a proporção",
+  "apply": "Aplicar",
+  "helpImage": "O menu Imagem, na barra, redimensiona, gira e espelha a seleção, ou o desenho inteiro quando nada está selecionado. Tamanho da folha acrescenta papel ou corta as bordas sem esticar, e Recortar deixa só o que está selecionado. Ctrl+W redimensiona, Ctrl+E muda a folha, Ctrl+R e Ctrl+Shift+R giram e Ctrl+Shift+X recorta."
 }

@@ -260,4 +260,41 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get helpText =>
       'The text tool (T) writes where you click, in the colour and size chosen, with or without serifs. Enter puts the text in the drawing, Shift+Enter starts a new line and Escape gives up; clicking elsewhere also finishes it.';
+
+  @override
+  String get imageMenu => 'Image';
+
+  @override
+  String get resize => 'Resize';
+
+  @override
+  String get sheetSize => 'Sheet size';
+
+  @override
+  String get rotateRight => 'Rotate right';
+
+  @override
+  String get rotateLeft => 'Rotate left';
+
+  @override
+  String get rotateHalf => 'Rotate 180°';
+
+  @override
+  String get flipHorizontal => 'Flip horizontally';
+
+  @override
+  String get flipVertical => 'Flip vertically';
+
+  @override
+  String get crop => 'Crop to the selection';
+
+  @override
+  String get keepRatio => 'Keep the proportion';
+
+  @override
+  String get apply => 'Apply';
+
+  @override
+  String get helpImage =>
+      'The image menu in the bar resizes, rotates and flips the selection, or the whole drawing when nothing is selected. Sheet size adds paper or cuts the edges without stretching, and Crop keeps only what is selected. Ctrl+W resizes, Ctrl+E changes the sheet, Ctrl+R and Ctrl+Shift+R rotate and Ctrl+Shift+X crops.';
 }

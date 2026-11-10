@@ -75,5 +75,17 @@
   "fontSans": "Fuente sin serifa",
   "fontSerif": "Fuente con serifa",
   "typeHere": "Escribe aquí",
-  "helpText": "El texto (T) escribe donde haces clic, con el color y el tamaño elegidos, con o sin serifa. Enter pone el texto en el dibujo, Shift+Enter empieza una línea nueva y Esc lo descarta; hacer clic en otro lugar también lo termina."
+  "helpText": "El texto (T) escribe donde haces clic, con el color y el tamaño elegidos, con o sin serifa. Enter pone el texto en el dibujo, Shift+Enter empieza una línea nueva y Esc lo descarta; hacer clic en otro lugar también lo termina.",
+  "imageMenu": "Imagen",
+  "resize": "Cambiar tamaño",
+  "sheetSize": "Tamaño de la hoja",
+  "rotateRight": "Girar a la derecha",
+  "rotateLeft": "Girar a la izquierda",
+  "rotateHalf": "Girar 180°",
+  "flipHorizontal": "Voltear horizontalmente",
+  "flipVertical": "Voltear verticalmente",
+  "crop": "Recortar a la selección",
+  "keepRatio": "Mantener la proporción",
+  "apply": "Aplicar",
+  "helpImage": "El menú Imagen de la barra cambia el tamaño, gira y voltea la selección, o todo el dibujo cuando no hay nada seleccionado. Tamaño de la hoja añade papel o corta los bordes sin estirar, y Recortar deja solo lo seleccionado. Ctrl+W cambia el tamaño, Ctrl+E cambia la hoja, Ctrl+R y Ctrl+Shift+R giran y Ctrl+Shift+X recorta."
 }
