@@ -308,4 +308,10 @@ class AppLocalizationsZh extends AppLocalizations {
   @override
   String get helpColors =>
       '有两种颜色：主颜色用于左键，次颜色（初始为白色）用于右键。在调色板上，左键选择主颜色，右键选择次颜色；按 X 交换两者。用右键使用橡皮时，只擦除主颜色，其余部分保留。';
+
+  @override
+  String get dropHint => '松开以打开图片';
+
+  @override
+  String get helpOpen => '也可以把图片拖到窗口上打开，或在文件管理器中选择“用 Psito Plume 打开”。';
 }

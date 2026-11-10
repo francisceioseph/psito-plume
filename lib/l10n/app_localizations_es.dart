@@ -309,4 +309,11 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String get helpColors =>
       'Hay dos colores: el principal, para el botón izquierdo, y el secundario, blanco al principio, para el botón derecho. En la paleta, el botón izquierdo elige el principal y el derecho el secundario; X los intercambia. La goma con el botón derecho solo borra el color principal y deja lo demás.';
+
+  @override
+  String get dropHint => 'Suelta la imagen para abrirla';
+
+  @override
+  String get helpOpen =>
+      'Las imágenes también se abren arrastrándolas a la ventana, o con Abrir con Psito Plume en el gestor de archivos.';
 }

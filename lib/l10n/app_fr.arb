@@ -90,5 +90,7 @@
   "primaryColor": "Couleur principale, bouton gauche, {code}",
   "secondaryColor": "Couleur secondaire, bouton droit, {code}",
   "swapColors": "Échanger les couleurs",
-  "helpColors": "Il y a deux couleurs : la principale pour le bouton gauche et la secondaire, blanche au départ, pour le bouton droit. Sur la palette, le bouton gauche choisit la principale et le droit la secondaire ; X les échange. La gomme au bouton droit n’efface que la couleur principale et garde le reste."
+  "helpColors": "Il y a deux couleurs : la principale pour le bouton gauche et la secondaire, blanche au départ, pour le bouton droit. Sur la palette, le bouton gauche choisit la principale et le droit la secondaire ; X les échange. La gomme au bouton droit n’efface que la couleur principale et garde le reste.",
+  "dropHint": "Déposez l’image pour l’ouvrir",
+  "helpOpen": "Les images s’ouvrent aussi en les glissant sur la fenêtre, ou avec Ouvrir avec Psito Plume dans le gestionnaire de fichiers."
 }

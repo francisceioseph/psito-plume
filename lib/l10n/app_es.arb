@@ -90,5 +90,7 @@
   "primaryColor": "Color principal, botón izquierdo, {code}",
   "secondaryColor": "Color secundario, botón derecho, {code}",
   "swapColors": "Intercambiar los colores",
-  "helpColors": "Hay dos colores: el principal, para el botón izquierdo, y el secundario, blanco al principio, para el botón derecho. En la paleta, el botón izquierdo elige el principal y el derecho el secundario; X los intercambia. La goma con el botón derecho solo borra el color principal y deja lo demás."
+  "helpColors": "Hay dos colores: el principal, para el botón izquierdo, y el secundario, blanco al principio, para el botón derecho. En la paleta, el botón izquierdo elige el principal y el derecho el secundario; X los intercambia. La goma con el botón derecho solo borra el color principal y deja lo demás.",
+  "dropHint": "Suelta la imagen para abrirla",
+  "helpOpen": "Las imágenes también se abren arrastrándolas a la ventana, o con Abrir con Psito Plume en el gestor de archivos."
 }

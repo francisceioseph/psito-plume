@@ -16,6 +16,7 @@ import '../labels.dart';
 import '../molecules/image_menu_button.dart';
 import '../organisms/canvas_view.dart';
 import '../organisms/dialogs.dart';
+import '../organisms/drop_zone.dart';
 import '../organisms/palette_bar.dart';
 import '../organisms/peek.dart';
 import '../organisms/toolbox.dart';
@@ -23,7 +24,15 @@ import '../organisms/top_bar.dart';
 import '../templates/workspace_template.dart';
 
 class PlumePage extends StatefulWidget {
-  const PlumePage({super.key, this.controller, this.closeGuard});
+  const PlumePage({
+    super.key,
+    this.controller,
+    this.closeGuard,
+    this.initialPath,
+  });
+
+  /// A picture to open as the page starts.
+  final String? initialPath;
 
   /// Given by the tests. Without one, the page makes its own.
   final PlumeController? controller;
@@ -32,10 +41,10 @@ class PlumePage extends StatefulWidget {
   final CloseGuard? closeGuard;
 
   @override
-  State<PlumePage> createState() => _PlumePageState();
+  State<PlumePage> createState() => PlumePageState();
 }
 
-class _PlumePageState extends State<PlumePage> {
+class PlumePageState extends State<PlumePage> {
   // Longer than in the games: someone drawing stops to think more often.
   static const _idle = Duration(seconds: 90);
   static const _peekTime = Duration(milliseconds: 3200);
@@ -55,6 +64,30 @@ class _PlumePageState extends State<PlumePage> {
     if (_controller.image == null) _controller.newImage();
     _closeGuard.start(_canClose);
     _waitIdle();
+    final path = widget.initialPath;
+    if (path != null) {
+      WidgetsBinding.instance.addPostFrameCallback((_) => _openFile(path));
+    }
+  }
+
+  Future<void> _openFile(String path) async {
+    final Uint8List bytes;
+    try {
+      bytes = await File(path).readAsBytes();
+    } on Object {
+      if (mounted) {
+        final l10n = context.l10n;
+        _message(l10n.openFailed(fileName(l10n, path)));
+      }
+      return;
+    }
+    if (mounted) await _openPath(path, bytes);
+  }
+
+  /// Pictures dragged from another program: the first one opens.
+  Future<void> openDropped(List<String> paths) async {
+    if (paths.isEmpty || !await _canDiscard() || !mounted) return;
+    await _openFile(paths.first);
   }
 
   /// Asked when the window is about to close.
@@ -142,6 +175,14 @@ class _PlumePageState extends State<PlumePage> {
         throw const FormatException('too big');
       }
       await _controller.openImage(picture, path);
+      if (!mounted) return;
+      // Big pictures open small enough to be seen whole.
+      final screen = MediaQuery.sizeOf(context);
+      final room = Size(
+        screen.width - Toolbox.width - 48,
+        screen.height - 170,
+      );
+      _controller.setZoom(min(1, _controller.fittingZoom(room)));
     } on Object {
       _message(l10n.openFailed(fileName(l10n, path)));
     }
@@ -153,7 +194,10 @@ class _PlumePageState extends State<PlumePage> {
     final l10n = context.l10n;
     var path = _controller.path;
     if (askWhere || path == null || !path.toLowerCase().endsWith('.png')) {
-      final suggested = fileName(l10n, path).replaceFirst(RegExp(r'\.\w+$'), '');
+      final suggested = fileName(
+        l10n,
+        path,
+      ).replaceFirst(RegExp(r'\.\w+$'), '');
       final location = await getSaveLocation(
         suggestedName: '$suggested.png',
         acceptedTypeGroups: [
@@ -181,12 +225,19 @@ class _PlumePageState extends State<PlumePage> {
       const SingleActivator(LogicalKeyboardKey.keyN, control: true): _newImage,
       const SingleActivator(LogicalKeyboardKey.keyO, control: true): _open,
       const SingleActivator(LogicalKeyboardKey.keyS, control: true): _save,
-      const SingleActivator(LogicalKeyboardKey.keyS, control: true, shift: true):
-          () => _save(askWhere: true),
+      const SingleActivator(
+        LogicalKeyboardKey.keyS,
+        control: true,
+        shift: true,
+      ): () =>
+          _save(askWhere: true),
       const SingleActivator(LogicalKeyboardKey.keyZ, control: true): c.undo,
       const SingleActivator(LogicalKeyboardKey.keyY, control: true): c.redo,
-      const SingleActivator(LogicalKeyboardKey.keyZ, control: true, shift: true):
-          c.redo,
+      const SingleActivator(
+        LogicalKeyboardKey.keyZ,
+        control: true,
+        shift: true,
+      ): c.redo,
       const SingleActivator(LogicalKeyboardKey.equal, control: true): c.zoomIn,
       const SingleActivator(LogicalKeyboardKey.add, control: true): c.zoomIn,
       const SingleActivator(LogicalKeyboardKey.numpadAdd, control: true):
@@ -213,10 +264,18 @@ class _PlumePageState extends State<PlumePage> {
           _imageAction(ImageAction.sheetSize),
       const SingleActivator(LogicalKeyboardKey.keyR, control: true): () =>
           _imageAction(ImageAction.rotateRight),
-      const SingleActivator(LogicalKeyboardKey.keyR, control: true, shift: true):
-          () => _imageAction(ImageAction.rotateLeft),
-      const SingleActivator(LogicalKeyboardKey.keyX, control: true, shift: true):
-          () => _imageAction(ImageAction.crop),
+      const SingleActivator(
+        LogicalKeyboardKey.keyR,
+        control: true,
+        shift: true,
+      ): () =>
+          _imageAction(ImageAction.rotateLeft),
+      const SingleActivator(
+        LogicalKeyboardKey.keyX,
+        control: true,
+        shift: true,
+      ): () =>
+          _imageAction(ImageAction.crop),
       const SingleActivator(LogicalKeyboardKey.escape): c.dropSelection,
       // The letters pick tools, except while a text is being typed.
       for (final tool in Tool.values)
@@ -300,25 +359,28 @@ class _PlumePageState extends State<PlumePage> {
           child: Listener(
             behavior: HitTestBehavior.translucent,
             onPointerDown: (_) => _activity(),
-            child: ListenableBuilder(
-              listenable: c,
-              builder: (context, _) => WorkspaceTemplate(
-                topBar: TopBar(
-                  controller: c,
-                  files: files,
-                  menu: _editMenu(),
-                  onImageAction: _imageAction,
+            child: DropZone(
+              onFiles: openDropped,
+              child: ListenableBuilder(
+                listenable: c,
+                builder: (context, _) => WorkspaceTemplate(
+                  topBar: TopBar(
+                    controller: c,
+                    files: files,
+                    menu: _editMenu(),
+                    onImageAction: _imageAction,
+                  ),
+                  toolbox: Toolbox(controller: c),
+                  canvas: CanvasView(controller: c),
+                  bottomBar: PaletteBar(controller: c),
+                  overlay: _spot == null
+                      ? const SizedBox.shrink()
+                      : Peek(
+                          key: ObjectKey(_spot),
+                          spot: _spot!,
+                          visible: _peeking,
+                        ),
                 ),
-                toolbox: Toolbox(controller: c),
-                canvas: CanvasView(controller: c),
-                bottomBar: PaletteBar(controller: c),
-                overlay: _spot == null
-                    ? const SizedBox.shrink()
-                    : Peek(
-                        key: ObjectKey(_spot),
-                        spot: _spot!,
-                        visible: _peeking,
-                      ),
               ),
             ),
           ),

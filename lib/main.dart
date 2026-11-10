@@ -4,10 +4,14 @@ import 'l10n/app_localizations.dart';
 import 'src/ui/atoms/colors.dart';
 import 'src/ui/pages/plume_page.dart';
 
-void main() => runApp(const PsitoPlumeApp());
+/// A file given on the command line, as "Open with" does, opens at once.
+void main(List<String> args) =>
+    runApp(PsitoPlumeApp(initialPath: args.isEmpty ? null : args.first));
 
 class PsitoPlumeApp extends StatelessWidget {
-  const PsitoPlumeApp({super.key});
+  const PsitoPlumeApp({super.key, this.initialPath});
+
+  final String? initialPath;
 
   @override
   Widget build(BuildContext context) => MaterialApp(
@@ -21,6 +25,6 @@ class PsitoPlumeApp extends StatelessWidget {
         brightness: Brightness.light,
       ),
     ),
-    home: const PlumePage(),
+    home: PlumePage(initialPath: initialPath),
   );
 }

@@ -653,6 +653,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'There are two colours: the main one for the left button and the second one, white at first, for the right button. On the palette, the left button picks the main colour and the right button the second; X swaps them. The eraser with the right button only takes away the main colour and keeps the rest.'**
   String get helpColors;
+
+  /// No description provided for @dropHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Drop the picture to open it'**
+  String get dropHint;
+
+  /// No description provided for @helpOpen.
+  ///
+  /// In en, this message translates to:
+  /// **'Pictures also open by dragging them onto the window, or with Open with Psito Plume in the file manager.'**
+  String get helpOpen;
 }
 
 class _AppLocalizationsDelegate

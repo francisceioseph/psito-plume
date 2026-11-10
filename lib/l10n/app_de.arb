@@ -90,5 +90,7 @@
   "primaryColor": "Hauptfarbe, linke Taste, {code}",
   "secondaryColor": "Zweitfarbe, rechte Taste, {code}",
   "swapColors": "Farben tauschen",
-  "helpColors": "Es gibt zwei Farben: die Hauptfarbe für die linke Taste und die Zweitfarbe, anfangs Weiß, für die rechte. In der Palette wählt die linke Taste die Hauptfarbe und die rechte die Zweitfarbe; X tauscht sie. Der Radierer mit der rechten Taste entfernt nur die Hauptfarbe und lässt den Rest."
+  "helpColors": "Es gibt zwei Farben: die Hauptfarbe für die linke Taste und die Zweitfarbe, anfangs Weiß, für die rechte. In der Palette wählt die linke Taste die Hauptfarbe und die rechte die Zweitfarbe; X tauscht sie. Der Radierer mit der rechten Taste entfernt nur die Hauptfarbe und lässt den Rest.",
+  "dropHint": "Bild loslassen, um es zu öffnen",
+  "helpOpen": "Bilder öffnen sich auch, wenn du sie auf das Fenster ziehst, oder über Öffnen mit Psito Plume im Dateimanager."
 }

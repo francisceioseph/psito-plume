@@ -311,4 +311,11 @@ class AppLocalizationsDe extends AppLocalizations {
   @override
   String get helpColors =>
       'Es gibt zwei Farben: die Hauptfarbe für die linke Taste und die Zweitfarbe, anfangs Weiß, für die rechte. In der Palette wählt die linke Taste die Hauptfarbe und die rechte die Zweitfarbe; X tauscht sie. Der Radierer mit der rechten Taste entfernt nur die Hauptfarbe und lässt den Rest.';
+
+  @override
+  String get dropHint => 'Bild loslassen, um es zu öffnen';
+
+  @override
+  String get helpOpen =>
+      'Bilder öffnen sich auch, wenn du sie auf das Fenster ziehst, oder über Öffnen mit Psito Plume im Dateimanager.';
 }
