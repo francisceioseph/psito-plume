@@ -60,5 +60,8 @@
   "bird8": "Canela",
   "bird9": "Lutino",
   "bird10": "Arlequim",
-  "bird11": "Rainha dourada"
+  "bird11": "Rainha dourada",
+  "closeTitle": "Salvar as mudanças em {name}?",
+  "closeBody": "Se você não salvar, as mudanças serão perdidas.",
+  "dontSave": "Não salvar"
 }

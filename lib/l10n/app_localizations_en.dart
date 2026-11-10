@@ -211,4 +211,15 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get bird11 => 'Golden queen';
+
+  @override
+  String closeTitle(String name) {
+    return 'Save the changes to $name?';
+  }
+
+  @override
+  String get closeBody => 'If you do not save, the changes will be lost.';
+
+  @override
+  String get dontSave => 'Don\'t save';
 }

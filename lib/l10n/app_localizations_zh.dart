@@ -210,4 +210,15 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get bird11 => '金色女王';
+
+  @override
+  String closeTitle(String name) {
+    return '保存对 $name 的修改吗？';
+  }
+
+  @override
+  String get closeBody => '如果不保存，修改将会丢失。';
+
+  @override
+  String get dontSave => '不保存';
 }

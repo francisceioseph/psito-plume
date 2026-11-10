@@ -212,4 +212,16 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get bird11 => 'Goldene Königin';
+
+  @override
+  String closeTitle(String name) {
+    return 'Änderungen an $name speichern?';
+  }
+
+  @override
+  String get closeBody =>
+      'Wenn du nicht speicherst, gehen die Änderungen verloren.';
+
+  @override
+  String get dontSave => 'Nicht speichern';
 }

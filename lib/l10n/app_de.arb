@@ -60,5 +60,8 @@
   "bird8": "Zimt",
   "bird9": "Lutino",
   "bird10": "Schecke",
-  "bird11": "Goldene Königin"
+  "bird11": "Goldene Königin",
+  "closeTitle": "Änderungen an {name} speichern?",
+  "closeBody": "Wenn du nicht speicherst, gehen die Änderungen verloren.",
+  "dontSave": "Nicht speichern"
 }

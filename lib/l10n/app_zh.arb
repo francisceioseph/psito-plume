@@ -60,5 +60,8 @@
   "bird8": "肉桂",
   "bird9": "黄化",
   "bird10": "花斑",
-  "bird11": "金色女王"
+  "bird11": "金色女王",
+  "closeTitle": "保存对 {name} 的修改吗？",
+  "closeBody": "如果不保存，修改将会丢失。",
+  "dontSave": "不保存"
 }

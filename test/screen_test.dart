@@ -7,7 +7,10 @@ import 'package:psito_plume/l10n/app_localizations.dart';
 import 'package:psito_plume/src/paint/operations.dart';
 import 'package:psito_plume/src/paint/pixels.dart';
 import 'package:psito_plume/src/paint/plume_controller.dart';
+import 'package:psito_plume/src/platform/close_guard.dart';
 import 'package:psito_plume/src/ui/pages/plume_page.dart';
+
+final guard = FakeCloseGuard();
 
 Future<PlumeController> pumpScreen(
   WidgetTester tester, [
@@ -24,7 +27,7 @@ Future<PlumeController> pumpScreen(
       locale: const Locale('pt'),
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
-      home: PlumePage(controller: controller),
+      home: PlumePage(controller: controller, closeGuard: guard),
     ),
   );
   await tester.pump();
@@ -153,6 +156,30 @@ void main() {
       await pumpScreen(tester, size);
       expect(tester.takeException(), isNull);
     }
+    await finish(tester);
+  });
+
+  testWidgets('closing with nothing new closes at once', (tester) async {
+    await pumpScreen(tester);
+    expect(await guard.canClose!(), isTrue);
+    await finish(tester);
+  });
+
+  testWidgets('closing with changes asks first', (tester) async {
+    final c = await pumpScreen(tester);
+    c.dirty = true;
+    var closes = guard.canClose!();
+    await tester.pumpAndSettle();
+    expect(find.text('Salvar as mudanças em Sem título?'), findsOneWidget);
+    await tester.tap(find.text('Cancelar'));
+    await tester.pumpAndSettle();
+    expect(await closes, isFalse);
+
+    closes = guard.canClose!();
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Não salvar'));
+    await tester.pumpAndSettle();
+    expect(await closes, isTrue);
     await finish(tester);
   });
 }

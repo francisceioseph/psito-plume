@@ -26,11 +26,29 @@
   "discardTitle": "Discard the drawing?",
   "discardBody": "The changes that were not saved will be lost.",
   "saved": "Saved as {name}",
-  "@saved": { "placeholders": { "name": { "type": "String" } } },
+  "@saved": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "openFailed": "{name} could not be opened.",
-  "@openFailed": { "placeholders": { "name": { "type": "String" } } },
+  "@openFailed": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "saveFailed": "{name} could not be saved.",
-  "@saveFailed": { "placeholders": { "name": { "type": "String" } } },
+  "@saveFailed": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "toolPencil": "Pencil",
   "toolBrush": "Brush",
   "toolEraser": "Eraser",
@@ -41,21 +59,66 @@
   "toolEllipse": "Ellipse",
   "toolStamp": "Cockatiel stamp",
   "sizeOption": "Size {pixels} px",
-  "@sizeOption": { "placeholders": { "pixels": { "type": "int" } } },
+  "@sizeOption": {
+    "placeholders": {
+      "pixels": {
+        "type": "int"
+      }
+    }
+  },
   "outline": "Outline only",
   "filled": "Filled",
   "moreColors": "More colours",
   "currentColor": "Colour in use, {code}",
-  "@currentColor": { "placeholders": { "code": { "type": "String" } } },
+  "@currentColor": {
+    "placeholders": {
+      "code": {
+        "type": "String"
+      }
+    }
+  },
   "colorSwatch": "Colour {code}",
-  "@colorSwatch": { "placeholders": { "code": { "type": "String" } } },
+  "@colorSwatch": {
+    "placeholders": {
+      "code": {
+        "type": "String"
+      }
+    }
+  },
   "colorCode": "Colour code",
   "position": "{x}, {y} px",
-  "@position": { "placeholders": { "x": { "type": "int" }, "y": { "type": "int" } } },
+  "@position": {
+    "placeholders": {
+      "x": {
+        "type": "int"
+      },
+      "y": {
+        "type": "int"
+      }
+    }
+  },
   "imageSize": "{width} × {height} px",
-  "@imageSize": { "placeholders": { "width": { "type": "int" }, "height": { "type": "int" } } },
+  "@imageSize": {
+    "placeholders": {
+      "width": {
+        "type": "int"
+      },
+      "height": {
+        "type": "int"
+      }
+    }
+  },
   "canvasLabel": "Drawing sheet, {width} by {height} pixels",
-  "@canvasLabel": { "placeholders": { "width": { "type": "int" }, "height": { "type": "int" } } },
+  "@canvasLabel": {
+    "placeholders": {
+      "width": {
+        "type": "int"
+      },
+      "height": {
+        "type": "int"
+      }
+    }
+  },
   "howToUseBody": "Pick a tool on the left and a colour at the bottom, then draw on the sheet. The square on the bottom left opens more colours, with a field for a colour code.\n\nPencil, brush and eraser draw while you drag. Line, rectangle and ellipse are drawn from where you press to where you let go; holding Shift makes straight angles, squares and circles. The paint bucket fills an area, the colour picker takes a colour from the drawing, and the stamp puts one of the Psito Nest cockatiels where you click.\n\nKeys: P pencil, B brush, E eraser, F bucket, I picker, L line, R rectangle, O ellipse, S stamp.\n\nCtrl+Z undoes and Ctrl+Y redoes. Ctrl+N starts a new drawing, Ctrl+O opens a picture and Ctrl+S saves it as PNG. Ctrl and the mouse wheel, or Ctrl+plus and Ctrl+minus, zoom; Ctrl+0 goes back to the actual size.",
   "aboutBody": "A little paint program with cockatiels. No ads, no telemetry and no account.",
   "aboutLegal": "Code under the Apache 2.0 license. Art under CC0.",
@@ -69,5 +132,15 @@
   "bird8": "Cinnamon",
   "bird9": "Lutino",
   "bird10": "Pied",
-  "bird11": "Golden queen"
+  "bird11": "Golden queen",
+  "closeTitle": "Save the changes to {name}?",
+  "@closeTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "closeBody": "If you do not save, the changes will be lost.",
+  "dontSave": "Don't save"
 }

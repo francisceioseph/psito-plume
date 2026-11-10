@@ -28,6 +28,36 @@ Future<bool> askDiscard(BuildContext context) async {
   return answer ?? false;
 }
 
+enum CloseAnswer { save, dontSave, cancel }
+
+/// Asks what to do with the changes before the window closes.
+Future<CloseAnswer> askBeforeClosing(BuildContext context, String name) async {
+  final l10n = context.l10n;
+  final answer = await showDialog<CloseAnswer>(
+    context: context,
+    builder: (context) => AlertDialog(
+      title: Text(l10n.closeTitle(name)),
+      content: Text(l10n.closeBody),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.of(context).pop(CloseAnswer.dontSave),
+          child: Text(l10n.dontSave),
+        ),
+        TextButton(
+          onPressed: () => Navigator.of(context).pop(CloseAnswer.cancel),
+          child: Text(l10n.cancel),
+        ),
+        FilledButton(
+          autofocus: true,
+          onPressed: () => Navigator.of(context).pop(CloseAnswer.save),
+          child: Text(l10n.save),
+        ),
+      ],
+    ),
+  );
+  return answer ?? CloseAnswer.cancel;
+}
+
 Future<(int, int)?> askImageSize(
   BuildContext context, {
   required String title,

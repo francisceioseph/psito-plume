@@ -473,6 +473,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Golden queen'**
   String get bird11;
+
+  /// No description provided for @closeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Save the changes to {name}?'**
+  String closeTitle(String name);
+
+  /// No description provided for @closeBody.
+  ///
+  /// In en, this message translates to:
+  /// **'If you do not save, the changes will be lost.'**
+  String get closeBody;
+
+  /// No description provided for @dontSave.
+  ///
+  /// In en, this message translates to:
+  /// **'Don\'t save'**
+  String get dontSave;
 }
 
 class _AppLocalizationsDelegate

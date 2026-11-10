@@ -211,4 +211,15 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get bird11 => 'Золотая королева';
+
+  @override
+  String closeTitle(String name) {
+    return 'Сохранить изменения в $name?';
+  }
+
+  @override
+  String get closeBody => 'Если не сохранить, изменения будут потеряны.';
+
+  @override
+  String get dontSave => 'Не сохранять';
 }

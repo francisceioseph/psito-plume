@@ -9,6 +9,7 @@ import 'package:flutter/services.dart';
 
 import '../../../l10n/l10n.dart';
 import '../../paint/operations.dart';
+import '../../platform/close_guard.dart';
 import '../../paint/plume_controller.dart';
 import '../atoms/colors.dart';
 import '../labels.dart';
@@ -21,10 +22,13 @@ import '../organisms/top_bar.dart';
 import '../templates/workspace_template.dart';
 
 class PlumePage extends StatefulWidget {
-  const PlumePage({super.key, this.controller});
+  const PlumePage({super.key, this.controller, this.closeGuard});
 
   /// Given by the tests. Without one, the page makes its own.
   final PlumeController? controller;
+
+  /// Given by the tests. Without one, the real window is held.
+  final CloseGuard? closeGuard;
 
   @override
   State<PlumePage> createState() => _PlumePageState();
@@ -42,15 +46,30 @@ class _PlumePageState extends State<PlumePage> {
   PeekSpot? _spot;
   bool _peeking = false;
 
+  late final CloseGuard _closeGuard = widget.closeGuard ?? WindowCloseGuard();
+
   @override
   void initState() {
     super.initState();
     if (_controller.image == null) _controller.newImage();
+    _closeGuard.start(_canClose);
     _waitIdle();
+  }
+
+  /// Asked when the window is about to close.
+  Future<bool> _canClose() async {
+    if (!_controller.dirty || !mounted) return true;
+    final name = fileName(context.l10n, _controller.path);
+    return switch (await askBeforeClosing(context, name)) {
+      CloseAnswer.save => await _save(),
+      CloseAnswer.dontSave => true,
+      CloseAnswer.cancel => false,
+    };
   }
 
   @override
   void dispose() {
+    _closeGuard.dispose();
     _timer?.cancel();
     if (widget.controller == null) _controller.dispose();
     super.dispose();

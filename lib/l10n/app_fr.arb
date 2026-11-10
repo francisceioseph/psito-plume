@@ -60,5 +60,8 @@
   "bird8": "Cannelle",
   "bird9": "Lutino",
   "bird10": "Panaché",
-  "bird11": "Reine dorée"
+  "bird11": "Reine dorée",
+  "closeTitle": "Enregistrer les modifications de {name} ?",
+  "closeBody": "Si vous n’enregistrez pas, les modifications seront perdues.",
+  "dontSave": "Ne pas enregistrer"
 }
