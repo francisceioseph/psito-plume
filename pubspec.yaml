@@ -26,6 +26,7 @@ flutter:
   assets:
     - assets/mascot/
     - assets/stamps/
+    - assets/brushes/
   fonts:
     - family: CardSerif
       fonts:

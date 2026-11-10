@@ -95,6 +95,7 @@ void showHowToUse(BuildContext context) {
             l10n.helpColors,
             l10n.helpOpen,
             l10n.helpShapes,
+            l10n.helpFeather,
           ].join('\n\n')),
         ),
       ),

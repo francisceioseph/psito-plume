@@ -184,5 +184,7 @@
   "toolArrow": "Arrow",
   "toolRoundedRectangle": "Rounded rectangle",
   "toolPolygon": "Polygon",
-  "helpShapes": "More shapes: the curve (C) is drawn as a line and bent with a second drag; the polygon (G) gets a corner per click and closes on the first corner, on a second click on the last one or with Enter; Escape gives up either. There are also the arrow (W), the rounded rectangle (U) and the spray (A)."
+  "helpShapes": "More shapes: the curve (C) is drawn as a line and bent with a second drag; the polygon (G) gets a corner per click and closes on the first corner, on a second click on the last one or with Enter; Escape gives up either. There are also the arrow (W), the rounded rectangle (U) and the spray (A).",
+  "toolFeather": "Feather brush",
+  "helpFeather": "The feather brush (Q) lays cockatiel feathers along the stroke, in the colour chosen, leaning to one side and the other as it goes."
 }

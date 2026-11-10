@@ -335,4 +335,11 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get helpShapes =>
       'More shapes: the curve (C) is drawn as a line and bent with a second drag; the polygon (G) gets a corner per click and closes on the first corner, on a second click on the last one or with Enter; Escape gives up either. There are also the arrow (W), the rounded rectangle (U) and the spray (A).';
+
+  @override
+  String get toolFeather => 'Feather brush';
+
+  @override
+  String get helpFeather =>
+      'The feather brush (Q) lays cockatiel feathers along the stroke, in the colour chosen, leaning to one side and the other as it goes.';
 }

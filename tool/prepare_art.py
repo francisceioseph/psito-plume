@@ -103,6 +103,55 @@ def icon(feather: Path) -> None:
     )
 
 
+def largest_part(mask: Image.Image) -> Image.Image:
+    """Only the biggest connected part of [mask]: the feather, not the drop."""
+    small = mask.resize((mask.width // 4, mask.height // 4), Image.NEAREST)
+    w, h = small.size
+    seen = [[False] * w for _ in range(h)]
+    best = []
+    for y in range(h):
+        for x in range(w):
+            if seen[y][x] or small.getpixel((x, y)) < 128:
+                continue
+            part, stack = [], [(x, y)]
+            seen[y][x] = True
+            while stack:
+                cx, cy = stack.pop()
+                part.append((cx, cy))
+                for nx, ny in ((cx + 1, cy), (cx - 1, cy), (cx, cy + 1), (cx, cy - 1)):
+                    if 0 <= nx < w and 0 <= ny < h and not seen[ny][nx] and small.getpixel((nx, ny)) >= 128:
+                        seen[ny][nx] = True
+                        stack.append((nx, ny))
+            if len(part) > len(best):
+                best = part
+    keep = Image.new("L", (w, h), 0)
+    for x, y in best:
+        keep.putpixel((x, y), 255)
+    keep = keep.resize(mask.size, Image.NEAREST).filter(ImageFilter.MaxFilter(9))
+    return ImageChops.multiply(mask, keep)
+
+
+def feather_brush(feather: Path) -> None:
+    """The feather of the icon, upright and in light greys, so that the brush
+    can tint it with any colour and keep its shading."""
+    img = Image.open(feather).convert("RGB")
+    side = int(img.width * CROP)
+    img = img.crop((0, 0, side, side))
+    mask = largest_part(drawing_mask(img, threshold=70))
+    grey = img.convert("L")
+    # Light greys: the darkest line keeps some of the colour that tints it.
+    grey = Image.eval(grey, lambda v: 140 + v * 115 // 255)
+    out = Image.merge("RGBA", (grey, grey, grey, mask))
+    out = out.crop(mask.getbbox())
+    # The drawing leans 45 degrees to the right; the brush wants it upright.
+    out = out.rotate(45, resample=Image.BICUBIC, expand=True)
+    out = out.crop(out.getchannel("A").getbbox())
+    out.thumbnail((96, 96), Image.LANCZOS)
+    brushes = ROOT / "assets" / "brushes"
+    brushes.mkdir(parents=True, exist_ok=True)
+    out.save(brushes / "feather.png", optimize=True)
+
+
 def main() -> None:
     art = Path(sys.argv[1])
     OUT.mkdir(parents=True, exist_ok=True)
@@ -110,6 +159,7 @@ def main() -> None:
         stamp(art, name, level)
     if len(sys.argv) > 2:
         icon(Path(sys.argv[2]))
+        feather_brush(Path(sys.argv[2]))
 
 
 if __name__ == "__main__":

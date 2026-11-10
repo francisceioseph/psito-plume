@@ -7,6 +7,7 @@ enum Tool {
   select,
   pencil,
   brush,
+  feather,
   eraser,
   spray,
   fill,
@@ -54,6 +55,7 @@ extension ToolInfo on Tool {
     Tool.stamp => const [48, 96, 160, 240],
     Tool.text => const [16, 24, 36, 56],
     Tool.spray => const [8, 16, 28, 44],
+    Tool.feather => const [16, 28, 44, 64],
     _ => const [1, 3, 6, 12],
   };
 
@@ -134,6 +136,48 @@ Path arrowPath(Offset start, Offset end, double width) {
       ..lineTo(end.dx + cos(wing) * head, end.dy + sin(wing) * head);
   }
   return path;
+}
+
+/// Feathers laid along the path of the pointer, leaning to one side and the
+/// other, in the colour chosen. Where they lean comes from [seed], so the
+/// preview and the pixels are the same.
+class FeatherOp extends Operation {
+  FeatherOp({
+    required List<Offset> points,
+    required this.color,
+    required this.size,
+    required this.seed,
+  }) : points = List.of(points);
+
+  final List<Offset> points;
+  final Color color;
+
+  /// The length of each feather.
+  final double size;
+  final int seed;
+
+  /// Where each feather goes, and its angle.
+  Iterable<(Offset, double)> placements() sync* {
+    final step = size * .45;
+    final random = Random(seed);
+    var travelled = 0.0;
+    var next = 0.0;
+    var direction = -pi / 2;
+    var side = 1;
+    for (var i = 0; i < points.length; i++) {
+      if (i > 0) {
+        final delta = points[i] - points[i - 1];
+        if (delta.distance > 0) direction = atan2(delta.dy, delta.dx);
+        travelled += delta.distance;
+      }
+      while (travelled >= next) {
+        final lean = side * (pi / 7 + random.nextDouble() * pi / 9);
+        yield (points[i], direction + lean);
+        side = -side;
+        next += step;
+      }
+    }
+  }
 }
 
 /// A line bent by a second drag, through the point where that drag went.
@@ -273,7 +317,12 @@ Rect stampRect(StampOp op, Size image) {
   );
 }
 
-void paintOperation(Canvas canvas, Operation op, {ui.Image? stamp}) {
+void paintOperation(
+  Canvas canvas,
+  Operation op, {
+  ui.Image? stamp,
+  ui.Image? feather,
+}) {
   switch (op) {
     case StrokeOp():
       final paint = Paint()
@@ -352,6 +401,33 @@ void paintOperation(Canvas canvas, Operation op, {ui.Image? stamp}) {
               ? PaintingStyle.fill
               : PaintingStyle.stroke,
       );
+    case FeatherOp():
+      if (feather == null) return;
+      final source = Size(feather.width.toDouble(), feather.height.toDouble());
+      final scale = op.size / source.height;
+      final paint = Paint()
+        ..filterQuality = FilterQuality.medium
+        ..colorFilter = ColorFilter.mode(op.color, BlendMode.modulate);
+      for (final (point, angle) in op.placements()) {
+        canvas
+          ..save()
+          ..translate(point.dx, point.dy)
+          // The drawing points up; the feather follows the stroke, with its
+          // quill where the pointer passed.
+          ..rotate(angle + pi / 2)
+          ..drawImageRect(
+            feather,
+            Offset.zero & source,
+            Rect.fromLTWH(
+              -source.width * scale / 2,
+              -source.height * scale,
+              source.width * scale,
+              source.height * scale,
+            ),
+            paint,
+          )
+          ..restore();
+      }
     case SprayOp():
       final paint = Paint()..color = op.color;
       for (final dot in op.dots()) {

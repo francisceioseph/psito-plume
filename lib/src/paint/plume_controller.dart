@@ -20,6 +20,13 @@ const maxSide = 8000;
 const zoomLevels = [.25, .5, 1.0, 2.0, 4.0, 8.0];
 
 typedef StampLoader = Future<ui.Image> Function(int level);
+typedef ImageLoader = Future<ui.Image> Function();
+
+Future<ui.Image> _featherFromAssets() async {
+  final data = await rootBundle.load('assets/brushes/feather.png');
+  final codec = await ui.instantiateImageCodec(data.buffer.asUint8List());
+  return (await codec.getNextFrame()).image;
+}
 
 Future<ui.Image> _stampFromAssets(int level) async {
   final data = await rootBundle.load('assets/stamps/$level.png');
@@ -53,15 +60,21 @@ Future<ui.Image> _draw(int width, int height, void Function(Canvas) paint) {
 class PlumeController extends ChangeNotifier {
   PlumeController({
     StampLoader? loadStamp,
+    ImageLoader? loadFeather,
     ImageClipboard? clipboard,
     this.maxHistory = 40,
   }) : _loadStamp = loadStamp ?? _stampFromAssets,
+       _loadFeather = loadFeather ?? _featherFromAssets,
        clipboard = clipboard ?? SystemImageClipboard();
 
   /// Where copies go, besides [_copied], so that other programs see them.
   final ImageClipboard clipboard;
 
   final StampLoader _loadStamp;
+  final ImageLoader _loadFeather;
+
+  /// The picture the feather brush lays, once loaded.
+  ui.Image? featherBrush;
   final int maxHistory;
 
   ui.Image? image;
@@ -216,6 +229,7 @@ class PlumeController extends ChangeNotifier {
 
   void setTool(Tool next) {
     if (next == Tool.stamp) _preloadStamp();
+    if (next == Tool.feather) loadFeatherBrush();
     if (next != Tool.select) {
       placeSelection(keep: false);
       selection = null;
@@ -310,6 +324,14 @@ class PlumeController extends ChangeNotifier {
           onlyColor: eraser && secondary ? color : null,
         );
         notifyListeners();
+      case Tool.feather:
+        live = FeatherOp(
+          points: [point],
+          color: paint,
+          size: size,
+          seed: _sprays++,
+        );
+        notifyListeners();
       case Tool.spray:
         live = SprayOp(
           points: [point],
@@ -349,6 +371,8 @@ class PlumeController extends ChangeNotifier {
         stroke.points.add(stroke.smooth ? point : _pixel(point));
       case final SprayOp spray:
         spray.points.add(point);
+      case final FeatherOp feathers:
+        feathers.points.add(point);
       case final CurveOp curve:
         if (_bending) {
           curve.bend = point;
@@ -469,6 +493,7 @@ class PlumeController extends ChangeNotifier {
     notifyListeners();
     _run(() async {
       final stampImage = op is StampOp ? stamps[op.level] : null;
+      if (op is FeatherOp) await loadFeatherBrush();
       final base = image!;
       if (op is StrokeOp && op.onlyColor != null) {
         await _eraseOneColor(base, op);
@@ -478,7 +503,12 @@ class PlumeController extends ChangeNotifier {
       }
       final next = await _draw(base.width, base.height, (canvas) {
         canvas.drawImage(base, Offset.zero, Paint());
-        paintOperation(canvas, op, stamp: stampImage);
+        paintOperation(
+          canvas,
+          op,
+          stamp: stampImage,
+          feather: featherBrush,
+        );
       });
       _push(next);
       pending.remove(op);
@@ -510,6 +540,16 @@ class PlumeController extends ChangeNotifier {
     );
     if (out == null) return;
     _push(await imageFromPixels(out, base.width, base.height));
+  }
+
+  /// Loads the picture of the feather brush, once.
+  Future<ui.Image> loadFeatherBrush() async {
+    final loaded = featherBrush;
+    if (loaded != null) return loaded;
+    final image = await _loadFeather();
+    featherBrush = image;
+    notifyListeners();
+    return image;
   }
 
   /// Loads the stamp in use, so that its preview can follow the pointer.
@@ -616,6 +656,7 @@ class PlumeController extends ChangeNotifier {
     for (final stamp in stamps.values) {
       stamp.dispose();
     }
+    featherBrush?.dispose();
     super.dispose();
   }
 }

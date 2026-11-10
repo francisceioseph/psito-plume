@@ -335,4 +335,11 @@ class AppLocalizationsPt extends AppLocalizations {
   @override
   String get helpShapes =>
       'Mais formas: a curva (C) é traçada como uma linha e dobrada com um segundo arrasto; o polígono (G) ganha um canto a cada clique e fecha no primeiro canto, num segundo clique no último ou com Enter; o Esc desiste dos dois. Há também a seta (W), o retângulo arredondado (U) e o spray (A).';
+
+  @override
+  String get toolFeather => 'Pincel de penas';
+
+  @override
+  String get helpFeather =>
+      'O pincel de penas (Q) deixa penas de calopsita ao longo do traço, na cor escolhida, inclinadas ora para um lado, ora para o outro.';
 }

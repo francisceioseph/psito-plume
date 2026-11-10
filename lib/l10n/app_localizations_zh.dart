@@ -333,4 +333,10 @@ class AppLocalizationsZh extends AppLocalizations {
   @override
   String get helpShapes =>
       '更多形状：曲线（C）先画成直线，再拖动一次使其弯曲；多边形（G）每点击一次增加一个角，点击第一个角、在最后一个角上再点一次或按 Enter 即可闭合；按 Esc 可以放弃这两种形状。另外还有箭头（W）、圆角矩形（U）和喷枪（A）。';
+
+  @override
+  String get toolFeather => '羽毛画笔';
+
+  @override
+  String get helpFeather => '羽毛画笔（Q）会沿着笔画铺上玄凤鹦鹉的羽毛，使用所选颜色，羽毛左右交替倾斜。';
 }

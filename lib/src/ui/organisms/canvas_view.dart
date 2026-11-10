@@ -231,7 +231,7 @@ class _SheetPainter extends CustomPainter {
   void _preview(Canvas canvas, Offset point, double zoom) {
     final c = controller;
     switch (c.tool) {
-      case Tool.brush || Tool.eraser || Tool.pencil:
+      case Tool.brush || Tool.eraser || Tool.pencil || Tool.spray:
         final side = max(c.size, 3 / zoom);
         final shape = c.tool == Tool.pencil
             ? (Path()..addRect(
@@ -319,6 +319,7 @@ class _SheetPainter extends CustomPainter {
     canvas,
     op,
     stamp: op is StampOp ? controller.stamps[op.level] : null,
+    feather: controller.featherBrush,
   );
 
   @override

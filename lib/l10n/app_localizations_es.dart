@@ -335,4 +335,11 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String get helpShapes =>
       'Más formas: la curva (C) se traza como una línea y se dobla con un segundo arrastre; el polígono (G) gana una esquina en cada clic y se cierra en la primera esquina, con un segundo clic en la última o con Enter; Esc descarta las dos. También están la flecha (W), el rectángulo redondeado (U) y el aerógrafo (A).';
+
+  @override
+  String get toolFeather => 'Pincel de plumas';
+
+  @override
+  String get helpFeather =>
+      'El pincel de plumas (Q) deja plumas de cacatúa a lo largo del trazo, en el color elegido, inclinadas a un lado y al otro.';
 }

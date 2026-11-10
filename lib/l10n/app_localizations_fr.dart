@@ -338,4 +338,11 @@ class AppLocalizationsFr extends AppLocalizations {
   @override
   String get helpShapes =>
       'D’autres formes : la courbe (C) se trace comme une ligne puis se plie avec un second glissement ; le polygone (G) gagne un coin à chaque clic et se ferme sur le premier coin, par un second clic sur le dernier ou avec Entrée ; Échap abandonne l’une ou l’autre. Il y a aussi la flèche (W), le rectangle arrondi (U) et l’aérographe (A).';
+
+  @override
+  String get toolFeather => 'Pinceau à plumes';
+
+  @override
+  String get helpFeather =>
+      'Le pinceau à plumes (Q) pose des plumes de calopsitte le long du trait, dans la couleur choisie, penchées d’un côté puis de l’autre.';
 }

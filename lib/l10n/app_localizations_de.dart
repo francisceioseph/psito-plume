@@ -337,4 +337,11 @@ class AppLocalizationsDe extends AppLocalizations {
   @override
   String get helpShapes =>
       'Weitere Formen: Die Kurve (C) wird als Linie gezogen und mit einem zweiten Ziehen gebogen; das Vieleck (G) bekommt mit jedem Klick eine Ecke und schließt sich an der ersten Ecke, mit einem zweiten Klick auf die letzte oder mit Enter; Esc verwirft beide. Außerdem gibt es den Pfeil (W), das abgerundete Rechteck (U) und die Sprühdose (A).';
+
+  @override
+  String get toolFeather => 'Federpinsel';
+
+  @override
+  String get helpFeather =>
+      'Der Federpinsel (Q) legt Nymphensittich-Federn entlang des Strichs, in der gewählten Farbe, mal zur einen, mal zur anderen Seite geneigt.';
 }
