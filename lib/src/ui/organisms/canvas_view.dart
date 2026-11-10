@@ -2,9 +2,9 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import '../../l10n/app_localizations.dart';
-import '../paint/operations.dart';
-import '../paint/plume_controller.dart';
+import '../../../l10n/l10n.dart';
+import '../../paint/operations.dart';
+import '../../paint/plume_controller.dart';
 
 /// The sheet of paper, with room around it and scroll bars when it does not
 /// fit.
@@ -89,7 +89,7 @@ class _Sheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context);
+    final l10n = context.l10n;
     final zoom = controller.zoom;
     final size = Size(controller.width * zoom, controller.height * zoom);
     return Semantics(

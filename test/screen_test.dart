@@ -7,7 +7,7 @@ import 'package:psito_plume/l10n/app_localizations.dart';
 import 'package:psito_plume/src/paint/operations.dart';
 import 'package:psito_plume/src/paint/pixels.dart';
 import 'package:psito_plume/src/paint/plume_controller.dart';
-import 'package:psito_plume/src/ui/plume_screen.dart';
+import 'package:psito_plume/src/ui/pages/plume_page.dart';
 
 Future<PlumeController> pumpScreen(
   WidgetTester tester, [
@@ -24,7 +24,7 @@ Future<PlumeController> pumpScreen(
       locale: const Locale('pt'),
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
-      home: PlumeScreen(controller: controller),
+      home: PlumePage(controller: controller),
     ),
   );
   await tester.pump();

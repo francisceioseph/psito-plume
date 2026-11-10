@@ -2,7 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/painting.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:psito_plume/src/ui/peek.dart';
+import 'package:psito_plume/src/ui/organisms/peek.dart';
 
 const area = Size(1000, 700);
 

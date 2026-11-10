@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 import 'l10n/app_localizations.dart';
-import 'src/ui/colors.dart';
-import 'src/ui/plume_screen.dart';
+import 'src/ui/atoms/colors.dart';
+import 'src/ui/pages/plume_page.dart';
 
 void main() => runApp(const PsitoPlumeApp());
 
@@ -21,6 +21,6 @@ class PsitoPlumeApp extends StatelessWidget {
         brightness: Brightness.light,
       ),
     ),
-    home: const PlumeScreen(),
+    home: const PlumePage(),
   );
 }

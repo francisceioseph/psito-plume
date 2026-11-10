@@ -1,0 +1,230 @@
+import 'dart:async';
+import 'dart:io';
+import 'dart:math';
+import 'dart:ui' as ui;
+
+import 'package:file_selector/file_selector.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+
+import '../../../l10n/l10n.dart';
+import '../../paint/operations.dart';
+import '../../paint/plume_controller.dart';
+import '../atoms/colors.dart';
+import '../labels.dart';
+import '../organisms/canvas_view.dart';
+import '../organisms/dialogs.dart';
+import '../organisms/palette_bar.dart';
+import '../organisms/peek.dart';
+import '../organisms/toolbox.dart';
+import '../organisms/top_bar.dart';
+import '../templates/workspace_template.dart';
+
+class PlumePage extends StatefulWidget {
+  const PlumePage({super.key, this.controller});
+
+  /// Given by the tests. Without one, the page makes its own.
+  final PlumeController? controller;
+
+  @override
+  State<PlumePage> createState() => _PlumePageState();
+}
+
+class _PlumePageState extends State<PlumePage> {
+  // Longer than in the games: someone drawing stops to think more often.
+  static const _idle = Duration(seconds: 90);
+  static const _peekTime = Duration(milliseconds: 3200);
+
+  late final PlumeController _controller =
+      widget.controller ?? PlumeController();
+  Timer? _timer;
+  final _random = Random();
+  PeekSpot? _spot;
+  bool _peeking = false;
+
+  @override
+  void initState() {
+    super.initState();
+    if (_controller.image == null) _controller.newImage();
+    _waitIdle();
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    if (widget.controller == null) _controller.dispose();
+    super.dispose();
+  }
+
+  void _waitIdle() {
+    _timer?.cancel();
+    _timer = Timer(_idle, _peek);
+  }
+
+  void _peek() {
+    setState(() {
+      _spot = nextPeekSpot(_random, _spot);
+      _peeking = true;
+    });
+    _timer = Timer(_peekTime, () {
+      setState(() => _peeking = false);
+      _waitIdle();
+    });
+  }
+
+  void _activity() {
+    if (_peeking) setState(() => _peeking = false);
+    _waitIdle();
+  }
+
+  void _message(String text) {
+    ScaffoldMessenger.of(context)
+      ..hideCurrentSnackBar()
+      ..showSnackBar(SnackBar(content: Text(text)));
+  }
+
+  /// True when there is nothing to lose, or the person said it can go.
+  Future<bool> _canDiscard() async =>
+      !_controller.dirty || await askDiscard(context);
+
+  Future<void> _newImage() async {
+    if (!await _canDiscard() || !mounted) return;
+    final size = await askImageSize(
+      context,
+      title: context.l10n.newImage,
+      width: _controller.width,
+      height: _controller.height,
+    );
+    if (size != null) await _controller.newImage(size.$1, size.$2);
+  }
+
+  Future<void> _open() async {
+    if (!await _canDiscard() || !mounted) return;
+    final file = await openFile(
+      acceptedTypeGroups: [
+        XTypeGroup(
+          label: context.l10n.images,
+          extensions: const ['png', 'jpg', 'jpeg', 'gif', 'bmp', 'webp'],
+        ),
+      ],
+    );
+    if (file == null) return;
+    await _openPath(file.path, await file.readAsBytes());
+  }
+
+  Future<void> _openPath(String path, Uint8List bytes) async {
+    final l10n = context.l10n;
+    try {
+      final codec = await ui.instantiateImageCodec(bytes);
+      final picture = (await codec.getNextFrame()).image;
+      if (picture.width > maxSide || picture.height > maxSide) {
+        picture.dispose();
+        throw const FormatException('too big');
+      }
+      await _controller.openImage(picture, path);
+    } on Object {
+      _message(l10n.openFailed(fileName(l10n, path)));
+    }
+  }
+
+  /// Saves, asking where when the drawing has no PNG file yet. True when it
+  /// was saved.
+  Future<bool> _save({bool askWhere = false}) async {
+    final l10n = context.l10n;
+    var path = _controller.path;
+    if (askWhere || path == null || !path.toLowerCase().endsWith('.png')) {
+      final suggested = fileName(l10n, path).replaceFirst(RegExp(r'\.\w+$'), '');
+      final location = await getSaveLocation(
+        suggestedName: '$suggested.png',
+        acceptedTypeGroups: [
+          XTypeGroup(label: l10n.pngImage, extensions: const ['png']),
+        ],
+      );
+      if (location == null) return false;
+      path = location.path;
+      if (!path.toLowerCase().endsWith('.png')) path = '$path.png';
+    }
+    try {
+      await File(path).writeAsBytes(await _controller.pngBytes());
+      _controller.markSaved(path);
+      _message(l10n.saved(fileName(l10n, path)));
+      return true;
+    } on Object {
+      _message(l10n.saveFailed(fileName(l10n, path)));
+      return false;
+    }
+  }
+
+  Map<ShortcutActivator, VoidCallback> get _shortcuts {
+    final c = _controller;
+    return {
+      const SingleActivator(LogicalKeyboardKey.keyN, control: true): _newImage,
+      const SingleActivator(LogicalKeyboardKey.keyO, control: true): _open,
+      const SingleActivator(LogicalKeyboardKey.keyS, control: true): _save,
+      const SingleActivator(LogicalKeyboardKey.keyS, control: true, shift: true):
+          () => _save(askWhere: true),
+      const SingleActivator(LogicalKeyboardKey.keyZ, control: true): c.undo,
+      const SingleActivator(LogicalKeyboardKey.keyY, control: true): c.redo,
+      const SingleActivator(LogicalKeyboardKey.keyZ, control: true, shift: true):
+          c.redo,
+      const SingleActivator(LogicalKeyboardKey.equal, control: true): c.zoomIn,
+      const SingleActivator(LogicalKeyboardKey.add, control: true): c.zoomIn,
+      const SingleActivator(LogicalKeyboardKey.numpadAdd, control: true):
+          c.zoomIn,
+      const SingleActivator(LogicalKeyboardKey.minus, control: true): c.zoomOut,
+      const SingleActivator(LogicalKeyboardKey.numpadSubtract, control: true):
+          c.zoomOut,
+      const SingleActivator(LogicalKeyboardKey.digit0, control: true): () =>
+          c.setZoom(1),
+      for (final tool in Tool.values)
+        SingleActivator(letterKey(toolKey(tool))): () => c.setTool(tool),
+    };
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final c = _controller;
+    final files = FileActions(
+      newImage: _newImage,
+      open: _open,
+      save: _save,
+      saveAs: () => _save(askWhere: true),
+    );
+    return Scaffold(
+      backgroundColor: PsitoColors.felt,
+      body: CallbackShortcuts(
+        bindings: _shortcuts,
+        child: Focus(
+          autofocus: true,
+          child: Listener(
+            behavior: HitTestBehavior.translucent,
+            onPointerDown: (_) => _activity(),
+            child: ListenableBuilder(
+              listenable: c,
+              builder: (context, _) => WorkspaceTemplate(
+                topBar: TopBar(controller: c, files: files),
+                toolbox: Toolbox(controller: c),
+                canvas: CanvasView(controller: c),
+                bottomBar: PaletteBar(controller: c),
+                overlay: _spot == null
+                    ? const SizedBox.shrink()
+                    : Peek(
+                        key: ObjectKey(_spot),
+                        spot: _spot!,
+                        visible: _peeking,
+                      ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+/// The key of a letter from A to Z.
+LogicalKeyboardKey letterKey(String letter) => LogicalKeyboardKey(
+  LogicalKeyboardKey.keyA.keyId +
+      letter.toLowerCase().codeUnitAt(0) -
+      'a'.codeUnitAt(0),
+);
