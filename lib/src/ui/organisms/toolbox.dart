@@ -37,7 +37,7 @@ class Toolbox extends StatelessWidget {
                 onChosen: controller.setSize,
               ),
             ],
-            if (tool == Tool.rectangle || tool == Tool.ellipse) ...[
+            if (tool.canFill) ...[
               const PanelDivider(),
               FillPicker(
                 filled: controller.filled,

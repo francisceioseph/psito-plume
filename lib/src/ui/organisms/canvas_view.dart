@@ -112,8 +112,12 @@ class _Sheet extends StatelessWidget {
         valueListenable: controller.pointer,
         builder: (context, point, child) => MouseRegion(
           cursor: _cursor(point),
-          onHover: (event) =>
-              controller.setCursor(_toImage(event.localPosition)),
+          onHover: (event) {
+            final point = _toImage(event.localPosition);
+            controller
+              ..setCursor(point)
+              ..hover(point);
+          },
           onExit: (_) => controller.setCursor(null),
           child: child,
         ),

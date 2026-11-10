@@ -92,5 +92,11 @@
   "swapColors": "Trocar as cores",
   "helpColors": "São duas cores: a principal, do botão esquerdo, e a secundária, que começa branca, do botão direito. Na paleta, o botão esquerdo escolhe a principal e o direito a secundária; o X troca as duas. A borracha com o botão direito apaga só a cor principal e deixa o resto.",
   "dropHint": "Solte a imagem para abri-la",
-  "helpOpen": "As imagens também abrem arrastando-as para a janela, ou pelo Abrir com Psito Plume do gerenciador de arquivos."
+  "helpOpen": "As imagens também abrem arrastando-as para a janela, ou pelo Abrir com Psito Plume do gerenciador de arquivos.",
+  "toolSpray": "Spray",
+  "toolCurve": "Curva",
+  "toolArrow": "Seta",
+  "toolRoundedRectangle": "Retângulo arredondado",
+  "toolPolygon": "Polígono",
+  "helpShapes": "Mais formas: a curva (C) é traçada como uma linha e dobrada com um segundo arrasto; o polígono (G) ganha um canto a cada clique e fecha no primeiro canto, num segundo clique no último ou com Enter; o Esc desiste dos dois. Há também a seta (W), o retângulo arredondado (U) e o spray (A)."
 }

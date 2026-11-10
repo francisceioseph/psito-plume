@@ -665,6 +665,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Pictures also open by dragging them onto the window, or with Open with Psito Plume in the file manager.'**
   String get helpOpen;
+
+  /// No description provided for @toolSpray.
+  ///
+  /// In en, this message translates to:
+  /// **'Spray'**
+  String get toolSpray;
+
+  /// No description provided for @toolCurve.
+  ///
+  /// In en, this message translates to:
+  /// **'Curve'**
+  String get toolCurve;
+
+  /// No description provided for @toolArrow.
+  ///
+  /// In en, this message translates to:
+  /// **'Arrow'**
+  String get toolArrow;
+
+  /// No description provided for @toolRoundedRectangle.
+  ///
+  /// In en, this message translates to:
+  /// **'Rounded rectangle'**
+  String get toolRoundedRectangle;
+
+  /// No description provided for @toolPolygon.
+  ///
+  /// In en, this message translates to:
+  /// **'Polygon'**
+  String get toolPolygon;
+
+  /// No description provided for @helpShapes.
+  ///
+  /// In en, this message translates to:
+  /// **'More shapes: the curve (C) is drawn as a line and bent with a second drag; the polygon (G) gets a corner per click and closes on the first corner, on a second click on the last one or with Enter; Escape gives up either. There are also the arrow (W), the rounded rectangle (U) and the spray (A).'**
+  String get helpShapes;
 }
 
 class _AppLocalizationsDelegate

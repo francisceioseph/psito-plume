@@ -178,5 +178,11 @@
   "swapColors": "Swap the colours",
   "helpColors": "There are two colours: the main one for the left button and the second one, white at first, for the right button. On the palette, the left button picks the main colour and the right button the second; X swaps them. The eraser with the right button only takes away the main colour and keeps the rest.",
   "dropHint": "Drop the picture to open it",
-  "helpOpen": "Pictures also open by dragging them onto the window, or with Open with Psito Plume in the file manager."
+  "helpOpen": "Pictures also open by dragging them onto the window, or with Open with Psito Plume in the file manager.",
+  "toolSpray": "Spray",
+  "toolCurve": "Curve",
+  "toolArrow": "Arrow",
+  "toolRoundedRectangle": "Rounded rectangle",
+  "toolPolygon": "Polygon",
+  "helpShapes": "More shapes: the curve (C) is drawn as a line and bent with a second drag; the polygon (G) gets a corner per click and closes on the first corner, on a second click on the last one or with Enter; Escape gives up either. There are also the arrow (W), the rounded rectangle (U) and the spray (A)."
 }

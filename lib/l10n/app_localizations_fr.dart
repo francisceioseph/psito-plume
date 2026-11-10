@@ -319,4 +319,23 @@ class AppLocalizationsFr extends AppLocalizations {
   @override
   String get helpOpen =>
       'Les images s’ouvrent aussi en les glissant sur la fenêtre, ou avec Ouvrir avec Psito Plume dans le gestionnaire de fichiers.';
+
+  @override
+  String get toolSpray => 'Aérographe';
+
+  @override
+  String get toolCurve => 'Courbe';
+
+  @override
+  String get toolArrow => 'Flèche';
+
+  @override
+  String get toolRoundedRectangle => 'Rectangle arrondi';
+
+  @override
+  String get toolPolygon => 'Polygone';
+
+  @override
+  String get helpShapes =>
+      'D’autres formes : la courbe (C) se trace comme une ligne puis se plie avec un second glissement ; le polygone (G) gagne un coin à chaque clic et se ferme sur le premier coin, par un second clic sur le dernier ou avec Entrée ; Échap abandonne l’une ou l’autre. Il y a aussi la flèche (W), le rectangle arrondi (U) et l’aérographe (A).';
 }

@@ -92,5 +92,11 @@
   "swapColors": "Farben tauschen",
   "helpColors": "Es gibt zwei Farben: die Hauptfarbe für die linke Taste und die Zweitfarbe, anfangs Weiß, für die rechte. In der Palette wählt die linke Taste die Hauptfarbe und die rechte die Zweitfarbe; X tauscht sie. Der Radierer mit der rechten Taste entfernt nur die Hauptfarbe und lässt den Rest.",
   "dropHint": "Bild loslassen, um es zu öffnen",
-  "helpOpen": "Bilder öffnen sich auch, wenn du sie auf das Fenster ziehst, oder über Öffnen mit Psito Plume im Dateimanager."
+  "helpOpen": "Bilder öffnen sich auch, wenn du sie auf das Fenster ziehst, oder über Öffnen mit Psito Plume im Dateimanager.",
+  "toolSpray": "Sprühdose",
+  "toolCurve": "Kurve",
+  "toolArrow": "Pfeil",
+  "toolRoundedRectangle": "Abgerundetes Rechteck",
+  "toolPolygon": "Vieleck",
+  "helpShapes": "Weitere Formen: Die Kurve (C) wird als Linie gezogen und mit einem zweiten Ziehen gebogen; das Vieleck (G) bekommt mit jedem Klick eine Ecke und schließt sich an der ersten Ecke, mit einem zweiten Klick auf die letzte oder mit Enter; Esc verwirft beide. Außerdem gibt es den Pfeil (W), das abgerundete Rechteck (U) und die Sprühdose (A)."
 }

@@ -276,7 +276,12 @@ class PlumePageState extends State<PlumePage> {
         shift: true,
       ): () =>
           _imageAction(ImageAction.crop),
-      const SingleActivator(LogicalKeyboardKey.escape): c.dropSelection,
+      const SingleActivator(LogicalKeyboardKey.escape): () {
+        c
+          ..cancelShape()
+          ..dropSelection();
+      },
+      const SingleActivator(LogicalKeyboardKey.enter): c.finishShape,
       // The letters pick tools, except while a text is being typed.
       for (final tool in Tool.values)
         SingleActivator(letterKey(toolKey(tool))): () {

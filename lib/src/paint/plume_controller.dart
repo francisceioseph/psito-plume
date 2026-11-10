@@ -98,6 +98,9 @@ class PlumeController extends ChangeNotifier {
   /// Finished operations still turning into pixels, drawn meanwhile on top.
   final List<Operation> pending = [];
 
+  int _sprays = 0;
+  bool _bending = false;
+
   /// Text being typed, not yet in the pixels.
   TextDraft? textDraft;
   bool textSerif = false;
@@ -198,6 +201,7 @@ class PlumeController extends ChangeNotifier {
 
   Future<Uint8List> pngBytes() async {
     commitText();
+    finishShape();
     await placeSelection();
     await idle;
     final data = await image!.toByteData(format: ui.ImageByteFormat.png);
@@ -217,6 +221,7 @@ class PlumeController extends ChangeNotifier {
       selection = null;
     }
     if (next != Tool.text) commitText();
+    if (next != tool) finishShape();
     if (next == Tool.picker && tool != Tool.picker) _beforePicker = tool;
     tool = next;
     notifyListeners();
@@ -305,7 +310,23 @@ class PlumeController extends ChangeNotifier {
           onlyColor: eraser && secondary ? color : null,
         );
         notifyListeners();
-      case Tool.line || Tool.rectangle || Tool.ellipse:
+      case Tool.spray:
+        live = SprayOp(
+          points: [point],
+          color: paint,
+          radius: size / 2,
+          seed: _sprays++,
+        );
+        notifyListeners();
+      case Tool.curve:
+        _curveDown(point, paint);
+      case Tool.polygon:
+        _polygonDown(point, paint);
+      case Tool.line ||
+          Tool.arrow ||
+          Tool.rectangle ||
+          Tool.roundedRectangle ||
+          Tool.ellipse:
         live = ShapeOp(
           tool: tool,
           color: paint,
@@ -326,6 +347,18 @@ class PlumeController extends ChangeNotifier {
     switch (live) {
       case final StrokeOp stroke:
         stroke.points.add(stroke.smooth ? point : _pixel(point));
+      case final SprayOp spray:
+        spray.points.add(point);
+      case final CurveOp curve:
+        if (_bending) {
+          curve.bend = point;
+        } else {
+          curve.end = constrain
+              ? constrainEnd(Tool.line, curve.start, point)
+              : point;
+        }
+      case final PolygonOp polygon:
+        polygon.points.last = point;
       case final ShapeOp shape:
         live = shape.copyWith(
           end: constrain ? constrainEnd(shape.tool, shape.start, point) : point,
@@ -343,8 +376,89 @@ class PlumeController extends ChangeNotifier {
     }
     final op = live;
     if (op == null) return;
+    // A curve waits for its bend, and a polygon for its next corner.
+    if (op is CurveOp && !_bending) {
+      if (op.start == op.end) live = null;
+      notifyListeners();
+      return;
+    }
+    if (op is PolygonOp) return;
+    _bending = false;
     live = null;
     _commit(op);
+  }
+
+  /// The pointer moving with no button down, over the sheet.
+  void hover(Offset point) {
+    final op = live;
+    if (op is PolygonOp) {
+      op.points.last = point;
+      notifyListeners();
+    }
+  }
+
+  void _curveDown(Offset point, Color paint) {
+    final op = live;
+    if (op is CurveOp) {
+      _bending = true;
+      op.bend = point;
+    } else {
+      live = CurveOp(start: point, end: point, color: paint, width: size);
+    }
+    notifyListeners();
+  }
+
+  void _polygonDown(Offset point, Color paint) {
+    final op = live;
+    if (op is! PolygonOp) {
+      live = PolygonOp(
+        points: [point, point],
+        color: paint,
+        width: size,
+        filled: filled,
+      );
+      notifyListeners();
+      return;
+    }
+    final corners = op.points.sublist(0, op.points.length - 1);
+    final near = 6 / zoom;
+    // A click on the first corner, or a second click on the last one,
+    // closes the polygon.
+    final closes = corners.length > 2 &&
+        ((point - corners.first).distance <= near ||
+            (point - corners.last).distance <= near);
+    if (closes) {
+      op.points
+        ..clear()
+        ..addAll(corners);
+      op.closed = true;
+      finishShape();
+      return;
+    }
+    op.points
+      ..last = point
+      ..add(point);
+    notifyListeners();
+  }
+
+  /// Puts a curve or a polygon that is still waiting in the drawing.
+  void finishShape() {
+    final op = live;
+    if (op is! CurveOp && op is! PolygonOp) return;
+    if (op is PolygonOp && !op.closed && op.points.length > 2) {
+      op.points.removeLast();
+    }
+    live = null;
+    _bending = false;
+    _commit(op!);
+  }
+
+  /// Gives up a curve or a polygon that is still waiting.
+  void cancelShape() {
+    if (live is! CurveOp && live is! PolygonOp) return;
+    live = null;
+    _bending = false;
+    notifyListeners();
   }
 
   /// For the parts of the controller kept in other files.

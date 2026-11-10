@@ -318,4 +318,23 @@ class AppLocalizationsDe extends AppLocalizations {
   @override
   String get helpOpen =>
       'Bilder öffnen sich auch, wenn du sie auf das Fenster ziehst, oder über Öffnen mit Psito Plume im Dateimanager.';
+
+  @override
+  String get toolSpray => 'Sprühdose';
+
+  @override
+  String get toolCurve => 'Kurve';
+
+  @override
+  String get toolArrow => 'Pfeil';
+
+  @override
+  String get toolRoundedRectangle => 'Abgerundetes Rechteck';
+
+  @override
+  String get toolPolygon => 'Vieleck';
+
+  @override
+  String get helpShapes =>
+      'Weitere Formen: Die Kurve (C) wird als Linie gezogen und mit einem zweiten Ziehen gebogen; das Vieleck (G) bekommt mit jedem Klick eine Ecke und schließt sich an der ersten Ecke, mit einem zweiten Klick auf die letzte oder mit Enter; Esc verwirft beide. Außerdem gibt es den Pfeil (W), das abgerundete Rechteck (U) und die Sprühdose (A).';
 }

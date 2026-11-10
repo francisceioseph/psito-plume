@@ -316,4 +316,23 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get helpOpen =>
       'Pictures also open by dragging them onto the window, or with Open with Psito Plume in the file manager.';
+
+  @override
+  String get toolSpray => 'Spray';
+
+  @override
+  String get toolCurve => 'Curve';
+
+  @override
+  String get toolArrow => 'Arrow';
+
+  @override
+  String get toolRoundedRectangle => 'Rounded rectangle';
+
+  @override
+  String get toolPolygon => 'Polygon';
+
+  @override
+  String get helpShapes =>
+      'More shapes: the curve (C) is drawn as a line and bent with a second drag; the polygon (G) gets a corner per click and closes on the first corner, on a second click on the last one or with Enter; Escape gives up either. There are also the arrow (W), the rounded rectangle (U) and the spray (A).';
 }

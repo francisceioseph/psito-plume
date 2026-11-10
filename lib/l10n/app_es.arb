@@ -92,5 +92,11 @@
   "swapColors": "Intercambiar los colores",
   "helpColors": "Hay dos colores: el principal, para el botón izquierdo, y el secundario, blanco al principio, para el botón derecho. En la paleta, el botón izquierdo elige el principal y el derecho el secundario; X los intercambia. La goma con el botón derecho solo borra el color principal y deja lo demás.",
   "dropHint": "Suelta la imagen para abrirla",
-  "helpOpen": "Las imágenes también se abren arrastrándolas a la ventana, o con Abrir con Psito Plume en el gestor de archivos."
+  "helpOpen": "Las imágenes también se abren arrastrándolas a la ventana, o con Abrir con Psito Plume en el gestor de archivos.",
+  "toolSpray": "Aerógrafo",
+  "toolCurve": "Curva",
+  "toolArrow": "Flecha",
+  "toolRoundedRectangle": "Rectángulo redondeado",
+  "toolPolygon": "Polígono",
+  "helpShapes": "Más formas: la curva (C) se traza como una línea y se dobla con un segundo arrastre; el polígono (G) gana una esquina en cada clic y se cierra en la primera esquina, con un segundo clic en la última o con Enter; Esc descarta las dos. También están la flecha (W), el rectángulo redondeado (U) y el aerógrafo (A)."
 }

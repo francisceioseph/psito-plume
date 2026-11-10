@@ -316,4 +316,23 @@ class AppLocalizationsRu extends AppLocalizations {
   @override
   String get helpOpen =>
       'Изображения также открываются, если перетащить их в окно или выбрать «Открыть с помощью Psito Plume» в файловом менеджере.';
+
+  @override
+  String get toolSpray => 'Распылитель';
+
+  @override
+  String get toolCurve => 'Кривая';
+
+  @override
+  String get toolArrow => 'Стрелка';
+
+  @override
+  String get toolRoundedRectangle => 'Скруглённый прямоугольник';
+
+  @override
+  String get toolPolygon => 'Многоугольник';
+
+  @override
+  String get helpShapes =>
+      'Другие фигуры: кривая (C) рисуется как линия и изгибается вторым перетаскиванием; многоугольник (G) получает угол с каждым щелчком и замыкается на первом угле, повторным щелчком на последнем или клавишей Enter; Esc отменяет любую из них. Есть также стрелка (W), скруглённый прямоугольник (U) и распылитель (A).';
 }
