@@ -1,0 +1,13 @@
+[Desktop Entry]
+Type=Application
+Name=Psito Plume
+GenericName=Paint program
+GenericName[pt]=Programa de desenho
+Comment=Draw with pencil, brush, shapes and cockatiel stamps
+Comment[pt]=Desenhe com lápis, pincel, formas e carimbos de calopsita
+Exec=psito_plume
+Icon=org.psito.plume
+Terminal=false
+Categories=Graphics;2DGraphics;RasterGraphics;
+Keywords=paint;draw;drawing;brush;image;cockatiel;desenho;pintar;pincel;calopsita;
+StartupWMClass=org.psito.plume

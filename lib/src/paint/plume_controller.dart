@@ -1,0 +1,367 @@
+import 'dart:async';
+import 'dart:math';
+import 'dart:ui' as ui;
+
+import 'package:flutter/foundation.dart';
+import 'package:flutter/painting.dart';
+import 'package:flutter/services.dart';
+
+import 'operations.dart';
+import 'pixels.dart';
+
+const defaultWidth = 800;
+const defaultHeight = 600;
+const maxSide = 8000;
+const zoomLevels = [.25, .5, 1.0, 2.0, 4.0, 8.0];
+
+typedef StampLoader = Future<ui.Image> Function(int level);
+
+Future<ui.Image> _stampFromAssets(int level) async {
+  final data = await rootBundle.load('assets/stamps/$level.png');
+  final codec = await ui.instantiateImageCodec(data.buffer.asUint8List());
+  return (await codec.getNextFrame()).image;
+}
+
+Future<ui.Image> imageFromPixels(Uint8List rgba, int width, int height) {
+  final done = Completer<ui.Image>();
+  ui.decodeImageFromPixels(
+    rgba,
+    width,
+    height,
+    ui.PixelFormat.rgba8888,
+    done.complete,
+  );
+  return done.future;
+}
+
+Future<ui.Image> _draw(int width, int height, void Function(Canvas) paint) {
+  final recorder = ui.PictureRecorder();
+  paint(Canvas(recorder));
+  final picture = recorder.endRecording();
+  return picture.toImage(width, height).whenComplete(picture.dispose);
+}
+
+/// The drawing, the tools and the history.
+///
+/// Every change of the pixels goes through one queue, so that a fill, a
+/// stroke and an undo never overlap, whatever the speed of the hand.
+class PlumeController extends ChangeNotifier {
+  PlumeController({StampLoader? loadStamp, this.maxHistory = 40})
+    : _loadStamp = loadStamp ?? _stampFromAssets;
+
+  final StampLoader _loadStamp;
+  final int maxHistory;
+
+  ui.Image? image;
+  int get width => image?.width ?? 0;
+  int get height => image?.height ?? 0;
+
+  /// Where the drawing was opened from or saved to.
+  String? path;
+
+  /// Whether there are changes since the last save.
+  bool dirty = false;
+
+  Tool tool = Tool.brush;
+  Tool _beforePicker = Tool.brush;
+  Color color = const Color(0xFF2B2B33);
+  int sizeIndex = 1;
+  bool filled = false;
+  int stampLevel = 6;
+  double zoom = 1;
+
+  /// The pointer over the sheet, in pixels of the drawing.
+  Offset? cursor;
+
+  /// The operation the pointer is drawing now.
+  Operation? live;
+
+  /// Finished operations still turning into pixels, drawn meanwhile on top.
+  final List<Operation> pending = [];
+
+  final Map<int, ui.Image> stamps = {};
+  final List<ui.Image> _undo = [];
+  final List<ui.Image> _redo = [];
+  Future<void> _queue = Future.value();
+
+  bool get canUndo => _undo.isNotEmpty;
+  bool get canRedo => _redo.isNotEmpty;
+  double get size => tool.sizes[sizeIndex];
+
+  /// Done when every change asked so far is in the pixels.
+  Future<void> get idle => _queue;
+
+  Future<void> _run(Future<void> Function() job) {
+    final next = _queue.then((_) => job());
+    _queue = next.catchError((Object error, StackTrace stack) {
+      FlutterError.reportError(
+        FlutterErrorDetails(exception: error, stack: stack),
+      );
+    });
+    return _queue;
+  }
+
+  void _clearHistory() {
+    for (final old in [..._undo, ..._redo]) {
+      old.dispose();
+    }
+    _undo.clear();
+    _redo.clear();
+  }
+
+  void _push(ui.Image next) {
+    _undo.add(image!);
+    if (_undo.length > maxHistory) _undo.removeAt(0).dispose();
+    for (final old in _redo) {
+      old.dispose();
+    }
+    _redo.clear();
+    image = next;
+    dirty = true;
+  }
+
+  Future<void> newImage([int width = defaultWidth, int height = defaultHeight]) =>
+      _run(() async {
+        final blank = await _draw(width, height, (canvas) {
+          canvas.drawRect(
+            Rect.fromLTWH(0, 0, width.toDouble(), height.toDouble()),
+            Paint()..color = paperColor,
+          );
+        });
+        _clearHistory();
+        image = blank;
+        path = null;
+        dirty = false;
+        zoom = 1;
+        notifyListeners();
+      });
+
+  /// Starts over from a picture opened from [path]. Transparent parts become
+  /// paper, like everything else on the sheet.
+  Future<void> openImage(ui.Image picture, String path) => _run(() async {
+    final flat = await _draw(picture.width, picture.height, (canvas) {
+      final area = Rect.fromLTWH(
+        0,
+        0,
+        picture.width.toDouble(),
+        picture.height.toDouble(),
+      );
+      canvas.drawRect(area, Paint()..color = paperColor);
+      canvas.drawImage(picture, Offset.zero, Paint());
+    });
+    picture.dispose();
+    _clearHistory();
+    image = flat;
+    this.path = path;
+    dirty = false;
+    zoom = 1;
+    notifyListeners();
+  });
+
+  Future<Uint8List> pngBytes() async {
+    await idle;
+    final data = await image!.toByteData(format: ui.ImageByteFormat.png);
+    return data!.buffer.asUint8List();
+  }
+
+  void markSaved(String path) {
+    this.path = path;
+    dirty = false;
+    notifyListeners();
+  }
+
+  void setTool(Tool next) {
+    if (next == Tool.picker && tool != Tool.picker) _beforePicker = tool;
+    tool = next;
+    notifyListeners();
+  }
+
+  void setColor(Color next) {
+    color = next;
+    notifyListeners();
+  }
+
+  void setSize(int index) {
+    sizeIndex = index.clamp(0, 3);
+    notifyListeners();
+  }
+
+  void setFilled(bool value) {
+    filled = value;
+    notifyListeners();
+  }
+
+  void setStamp(int level) {
+    stampLevel = level;
+    tool = Tool.stamp;
+    notifyListeners();
+  }
+
+  void setZoom(double value) {
+    zoom = value.clamp(zoomLevels.first, zoomLevels.last);
+    notifyListeners();
+  }
+
+  void zoomIn() =>
+      setZoom(zoomLevels.firstWhere((z) => z > zoom, orElse: () => zoom));
+
+  void zoomOut() => setZoom(
+    zoomLevels.lastWhere((z) => z < zoom, orElse: () => zoom),
+  );
+
+  void setCursor(Offset? point) {
+    cursor = point;
+    notifyListeners();
+  }
+
+  Offset _pixel(Offset point) => Offset(
+    point.dx.floorToDouble() + .5,
+    point.dy.floorToDouble() + .5,
+  );
+
+  /// The pointer goes down on the sheet, at [point] in pixels of the drawing.
+  void pointerDown(Offset point) {
+    if (image == null) return;
+    switch (tool) {
+      case Tool.fill:
+        fill(point);
+      case Tool.picker:
+        pick(point);
+      case Tool.stamp:
+        stamp(point);
+      case Tool.pencil || Tool.brush || Tool.eraser:
+        final smooth = tool != Tool.pencil;
+        live = StrokeOp(
+          color: tool == Tool.eraser ? paperColor : color,
+          width: size,
+          smooth: smooth,
+          points: [smooth ? point : _pixel(point)],
+        );
+        notifyListeners();
+      case Tool.line || Tool.rectangle || Tool.ellipse:
+        live = ShapeOp(
+          tool: tool,
+          color: color,
+          width: tool.sizes[sizeIndex],
+          start: point,
+          end: point,
+          filled: filled,
+        );
+        notifyListeners();
+    }
+  }
+
+  void pointerMove(Offset point, {bool constrain = false}) {
+    switch (live) {
+      case final StrokeOp stroke:
+        stroke.points.add(stroke.smooth ? point : _pixel(point));
+      case final ShapeOp shape:
+        live = shape.copyWith(
+          end: constrain ? constrainEnd(shape.tool, shape.start, point) : point,
+        );
+      default:
+        return;
+    }
+    notifyListeners();
+  }
+
+  void pointerUp() {
+    final op = live;
+    if (op == null) return;
+    live = null;
+    _commit(op);
+  }
+
+  void _commit(Operation op) {
+    pending.add(op);
+    notifyListeners();
+    _run(() async {
+      final stampImage = op is StampOp ? stamps[op.level] : null;
+      final base = image!;
+      final next = await _draw(base.width, base.height, (canvas) {
+        canvas.drawImage(base, Offset.zero, Paint());
+        paintOperation(canvas, op, stamp: stampImage);
+      });
+      _push(next);
+      pending.remove(op);
+      notifyListeners();
+    });
+  }
+
+  Future<ui.Image> stampImage(int level) async =>
+      stamps[level] ??= await _loadStamp(level);
+
+  Future<void> stamp(Offset point) async {
+    final level = stampLevel;
+    await stampImage(level);
+    _commit(StampOp(level: level, center: point, size: Tool.stamp.sizes[sizeIndex]));
+  }
+
+  Future<Uint8List> _pixels() async {
+    final data = await image!.toByteData(format: ui.ImageByteFormat.rawRgba);
+    return data!.buffer.asUint8List();
+  }
+
+  Future<void> fill(Offset point) => _run(() async {
+    final base = image!;
+    final rgba = await _pixels();
+    final request = FillRequest(
+      rgba: rgba,
+      width: base.width,
+      height: base.height,
+      x: point.dx.floor(),
+      y: point.dy.floor(),
+      color: color.toARGB32(),
+    );
+    // Big sheets go to another isolate, so that the window does not freeze.
+    final out = base.width * base.height > 500000
+        ? await compute(floodFill, request)
+        : floodFill(request);
+    if (out == null) return;
+    _push(await imageFromPixels(out, base.width, base.height));
+    notifyListeners();
+  });
+
+  /// Takes the colour under [point] and goes back to the tool from before.
+  Future<void> pick(Offset point) => _run(() async {
+    final x = point.dx.floor();
+    final y = point.dy.floor();
+    if (x < 0 || y < 0 || x >= width || y >= height) return;
+    color = Color(pixelAt(await _pixels(), width, x, y));
+    tool = _beforePicker;
+    notifyListeners();
+  });
+
+  Future<void> undo() => _run(() async {
+    if (_undo.isEmpty) return;
+    _redo.add(image!);
+    image = _undo.removeLast();
+    dirty = true;
+    notifyListeners();
+  });
+
+  Future<void> redo() => _run(() async {
+    if (_redo.isEmpty) return;
+    _undo.add(image!);
+    image = _redo.removeLast();
+    dirty = true;
+    notifyListeners();
+  });
+
+  /// The zoom that makes the whole sheet fit in [area].
+  double fittingZoom(Size area) {
+    if (width == 0) return 1;
+    final fit = min(area.width / width, area.height / height);
+    return zoomLevels.lastWhere((z) => z <= fit, orElse: () => zoomLevels.first);
+  }
+
+  @override
+  void dispose() {
+    _clearHistory();
+    image?.dispose();
+    for (final stamp in stamps.values) {
+      stamp.dispose();
+    }
+    super.dispose();
+  }
+}

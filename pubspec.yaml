@@ -1,0 +1,30 @@
+name: psito_plume
+description: "A little paint program with cockatiels. No ads, no telemetry, no account."
+publish_to: 'none'
+version: 0.1.0
+
+environment:
+  sdk: ^3.13.3
+
+dependencies:
+  file_selector: ^1.1.0
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+  intl: any
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+
+flutter:
+  uses-material-design: true
+  generate: true
+  assets:
+    - assets/mascot/
+    - assets/stamps/
+  fonts:
+    - family: CardSerif
+      fonts:
+        - asset: assets/fonts/CardSerif-Bold.ttf
