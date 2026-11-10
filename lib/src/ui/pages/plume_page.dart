@@ -204,8 +204,11 @@ class _PlumePageState extends State<PlumePage> {
           c.selectAll,
       const SingleActivator(LogicalKeyboardKey.delete): c.deleteSelection,
       const SingleActivator(LogicalKeyboardKey.escape): c.dropSelection,
+      // The letters pick tools, except while a text is being typed.
       for (final tool in Tool.values)
-        SingleActivator(letterKey(toolKey(tool))): () => c.setTool(tool),
+        SingleActivator(letterKey(toolKey(tool))): () {
+          if (c.textDraft == null) c.setTool(tool);
+        },
     };
   }
 

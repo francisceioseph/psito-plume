@@ -70,5 +70,10 @@
   "paste": "Einfügen",
   "selectAll": "Alles auswählen",
   "nothingToPaste": "Es gibt kein Bild zum Einfügen.",
-  "helpSelection": "Die Auswahl (M) markiert ein Rechteck. Ziehe von innen, um den Inhalt zu verschieben; er bleibt lose, bis du außerhalb klickst, Esc drückst oder ein anderes Werkzeug wählst, und Strg+Z legt ihn zurück. Strg+C kopiert, Strg+X schneidet aus, Strg+V fügt ein hier oder in einem anderen Programm kopiertes Bild ein, Strg+A wählt alles aus und Entf löscht die Auswahl."
+  "helpSelection": "Die Auswahl (M) markiert ein Rechteck. Ziehe von innen, um den Inhalt zu verschieben; er bleibt lose, bis du außerhalb klickst, Esc drückst oder ein anderes Werkzeug wählst, und Strg+Z legt ihn zurück. Strg+C kopiert, Strg+X schneidet aus, Strg+V fügt ein hier oder in einem anderen Programm kopiertes Bild ein, Strg+A wählt alles aus und Entf löscht die Auswahl.",
+  "toolText": "Text",
+  "fontSans": "Serifenlose Schrift",
+  "fontSerif": "Serifenschrift",
+  "typeHere": "Hier tippen",
+  "helpText": "Das Textwerkzeug (T) schreibt dort, wo du klickst, in der gewählten Farbe und Größe, mit oder ohne Serifen. Enter setzt den Text in die Zeichnung, Umschalt+Enter beginnt eine neue Zeile und Esc verwirft ihn; ein Klick an anderer Stelle beendet ihn ebenfalls."
 }

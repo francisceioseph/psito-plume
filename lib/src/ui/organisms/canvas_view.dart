@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 import '../../../l10n/l10n.dart';
 import '../../paint/operations.dart';
 import '../../paint/plume_controller.dart';
+import '../molecules/text_draft_field.dart';
 
 /// The sheet of paper, with room around it and scroll bars when it does not
 /// fit.
@@ -112,38 +113,57 @@ class _Sheet extends StatelessWidget {
         cursor: _cursor(),
         onHover: (event) => controller.setCursor(_toImage(event.localPosition)),
         onExit: (_) => controller.setCursor(null),
-        child: Listener(
-          onPointerDown: (event) {
-            if (event.buttons != kPrimaryButton) return;
-            controller.pointerDown(_toImage(event.localPosition));
-          },
-          onPointerMove: (event) {
-            final point = _toImage(event.localPosition);
-            controller.cursor = point;
-            controller.pointerMove(
-              point,
-              constrain: HardwareKeyboard.instance.isShiftPressed,
-            );
-          },
-          onPointerUp: (_) => controller.pointerUp(),
-          onPointerCancel: (_) => controller.pointerUp(),
-          child: DecoratedBox(
-            decoration: const BoxDecoration(
-              boxShadow: [
-                BoxShadow(
-                  color: Color(0x55000000),
-                  blurRadius: 12,
-                  offset: Offset(0, 4),
+        // The text being typed sits on top, apart from the listener, so that
+        // clicks inside it do not start a new text.
+        child: Stack(
+          clipBehavior: Clip.none,
+          children: [
+            Listener(
+              onPointerDown: (event) {
+                if (event.buttons != kPrimaryButton) return;
+                controller.pointerDown(_toImage(event.localPosition));
+              },
+              onPointerMove: (event) {
+                final point = _toImage(event.localPosition);
+                controller.cursor = point;
+                controller.pointerMove(
+                  point,
+                  constrain: HardwareKeyboard.instance.isShiftPressed,
+                );
+              },
+              onPointerUp: (_) => controller.pointerUp(),
+              onPointerCancel: (_) => controller.pointerUp(),
+              child: DecoratedBox(
+                decoration: const BoxDecoration(
+                  boxShadow: [
+                    BoxShadow(
+                      color: Color(0x55000000),
+                      blurRadius: 12,
+                      offset: Offset(0, 4),
+                    ),
+                  ],
                 ),
-              ],
-            ),
-            child: ClipRect(
-              child: CustomPaint(
-                size: size,
-                painter: _SheetPainter(controller),
+                child: ClipRect(
+                  child: CustomPaint(
+                    size: size,
+                    painter: _SheetPainter(controller),
+                  ),
+                ),
               ),
             ),
-          ),
+            if (controller.textDraft case final draft?)
+              Positioned(
+                left: draft.position.dx * zoom,
+                top: draft.position.dy * zoom,
+                child: TextDraftField(
+                  key: ObjectKey(draft),
+                  draft: draft,
+                  zoom: zoom,
+                  onCommit: controller.commitText,
+                  onCancel: controller.cancelText,
+                ),
+              ),
+          ],
         ),
       ),
     );

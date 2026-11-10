@@ -77,7 +77,7 @@ void showHowToUse(BuildContext context) {
       content: SizedBox(
         width: 460,
         child: SingleChildScrollView(
-          child: Text([l10n.howToUseBody, l10n.helpSelection].join('\n\n')),
+          child: Text([l10n.howToUseBody, l10n.helpSelection, l10n.helpText].join('\n\n')),
         ),
       ),
       actions: [

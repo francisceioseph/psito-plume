@@ -243,4 +243,20 @@ class AppLocalizationsZh extends AppLocalizations {
   @override
   String get helpSelection =>
       '选择工具（M）可以框出一个矩形。从框内拖动可以移动其中的内容；在你点击框外、按 Esc 或换用其他工具之前，它都可以自由移动，按 Ctrl+Z 会把它放回原处。Ctrl+C 复制，Ctrl+X 剪切，Ctrl+V 粘贴在这里或其他程序中复制的图片，Ctrl+A 全选，Delete 清除所选内容。';
+
+  @override
+  String get toolText => '文字';
+
+  @override
+  String get fontSans => '无衬线字体';
+
+  @override
+  String get fontSerif => '衬线字体';
+
+  @override
+  String get typeHere => '在此输入';
+
+  @override
+  String get helpText =>
+      '文字工具（T）会在你点击的地方写字，使用选定的颜色和大小，可以选有衬线或无衬线字体。按 Enter 把文字放进画里，Shift+Enter 换行，Esc 放弃；在别处点击也会完成输入。';
 }

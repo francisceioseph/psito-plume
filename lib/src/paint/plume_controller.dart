@@ -11,6 +11,7 @@ import 'operations.dart';
 import 'pixels.dart';
 
 part 'selection.dart';
+part 'text_draft.dart';
 
 const defaultWidth = 800;
 const defaultHeight = 600;
@@ -88,6 +89,10 @@ class PlumeController extends ChangeNotifier {
 
   /// Finished operations still turning into pixels, drawn meanwhile on top.
   final List<Operation> pending = [];
+
+  /// Text being typed, not yet in the pixels.
+  TextDraft? textDraft;
+  bool textSerif = false;
 
   /// The area chosen with the selection tool, in pixels of the drawing.
   Rect? selection;
@@ -184,6 +189,7 @@ class PlumeController extends ChangeNotifier {
   });
 
   Future<Uint8List> pngBytes() async {
+    commitText();
     await placeSelection();
     await idle;
     final data = await image!.toByteData(format: ui.ImageByteFormat.png);
@@ -201,6 +207,7 @@ class PlumeController extends ChangeNotifier {
       placeSelection(keep: false);
       selection = null;
     }
+    if (next != Tool.text) commitText();
     if (next == Tool.picker && tool != Tool.picker) _beforePicker = tool;
     tool = next;
     notifyListeners();
@@ -208,11 +215,13 @@ class PlumeController extends ChangeNotifier {
 
   void setColor(Color next) {
     color = next;
+    textDraft?.color = next;
     notifyListeners();
   }
 
   void setSize(int index) {
     sizeIndex = index.clamp(0, 3);
+    if (tool == Tool.text) textDraft?.size = size;
     notifyListeners();
   }
 
@@ -255,6 +264,8 @@ class PlumeController extends ChangeNotifier {
     switch (tool) {
       case Tool.select:
         _selectDown(point);
+      case Tool.text:
+        startText(point);
       case Tool.fill:
         fill(point);
       case Tool.picker:
@@ -311,6 +322,9 @@ class PlumeController extends ChangeNotifier {
     live = null;
     _commit(op);
   }
+
+  /// For the parts of the controller kept in other files.
+  void _commitOperation(Operation op) => _commit(op);
 
   void _commit(Operation op) {
     pending.add(op);

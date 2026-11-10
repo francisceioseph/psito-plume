@@ -247,4 +247,20 @@ class AppLocalizationsFr extends AppLocalizations {
   @override
   String get helpSelection =>
       'La sélection (M) trace un rectangle. Glissez depuis l’intérieur pour déplacer son contenu ; il reste libre jusqu’à ce que vous cliquiez à l’extérieur, appuyiez sur Échap ou changiez d’outil, et Ctrl+Z le remet en place. Ctrl+C copie, Ctrl+X coupe, Ctrl+V colle une image copiée ici ou dans un autre programme, Ctrl+A sélectionne tout et Suppr efface la sélection.';
+
+  @override
+  String get toolText => 'Texte';
+
+  @override
+  String get fontSans => 'Police sans empattement';
+
+  @override
+  String get fontSerif => 'Police à empattement';
+
+  @override
+  String get typeHere => 'Tapez ici';
+
+  @override
+  String get helpText =>
+      'Le texte (T) écrit là où vous cliquez, dans la couleur et la taille choisies, avec ou sans empattements. Entrée place le texte dans le dessin, Maj+Entrée commence une nouvelle ligne et Échap l’abandonne ; cliquer ailleurs le termine aussi.';
 }

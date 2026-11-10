@@ -70,5 +70,10 @@
   "paste": "Colar",
   "selectAll": "Selecionar tudo",
   "nothingToPaste": "Não há imagem para colar.",
-  "helpSelection": "A seleção (M) marca um retângulo. Arraste de dentro dele para mover o que ele tem; ele fica solto até você clicar fora, apertar Esc ou trocar de ferramenta, e o Ctrl+Z devolve tudo ao lugar. Ctrl+C copia, Ctrl+X recorta, Ctrl+V cola uma imagem copiada aqui ou em outro programa, Ctrl+A seleciona tudo e Delete apaga a seleção."
+  "helpSelection": "A seleção (M) marca um retângulo. Arraste de dentro dele para mover o que ele tem; ele fica solto até você clicar fora, apertar Esc ou trocar de ferramenta, e o Ctrl+Z devolve tudo ao lugar. Ctrl+C copia, Ctrl+X recorta, Ctrl+V cola uma imagem copiada aqui ou em outro programa, Ctrl+A seleciona tudo e Delete apaga a seleção.",
+  "toolText": "Texto",
+  "fontSans": "Fonte sem serifa",
+  "fontSerif": "Fonte com serifa",
+  "typeHere": "Digite aqui",
+  "helpText": "O texto (T) escreve onde você clicar, na cor e no tamanho escolhidos, com ou sem serifa. Enter põe o texto no desenho, Shift+Enter começa uma nova linha e Esc desiste; clicar em outro lugar também termina o texto."
 }

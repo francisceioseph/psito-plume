@@ -244,4 +244,20 @@ class AppLocalizationsRu extends AppLocalizations {
   @override
   String get helpSelection =>
       'Выделение (M) отмечает прямоугольник. Потяните изнутри, чтобы переместить его содержимое; оно остаётся свободным, пока вы не щёлкнете снаружи, не нажмёте Esc или не выберете другой инструмент, а Ctrl+Z вернёт всё на место. Ctrl+C копирует, Ctrl+X вырезает, Ctrl+V вставляет изображение, скопированное здесь или в другой программе, Ctrl+A выделяет всё, а Delete стирает выделенное.';
+
+  @override
+  String get toolText => 'Текст';
+
+  @override
+  String get fontSans => 'Шрифт без засечек';
+
+  @override
+  String get fontSerif => 'Шрифт с засечками';
+
+  @override
+  String get typeHere => 'Введите текст';
+
+  @override
+  String get helpText =>
+      'Текст (T) пишет там, где вы щёлкнули, выбранным цветом и размером, с засечками или без. Enter переносит текст в рисунок, Shift+Enter начинает новую строку, а Esc отменяет; щелчок в другом месте тоже завершает текст.';
 }

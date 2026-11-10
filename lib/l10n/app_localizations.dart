@@ -533,6 +533,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'The selection (M) marks a rectangle. Drag from inside it to move what it holds; it stays loose until you click outside, press Escape or pick another tool, and Ctrl+Z puts it back. Ctrl+C copies, Ctrl+X cuts, Ctrl+V pastes a picture copied here or in another program, Ctrl+A selects everything and Delete clears the selection.'**
   String get helpSelection;
+
+  /// No description provided for @toolText.
+  ///
+  /// In en, this message translates to:
+  /// **'Text'**
+  String get toolText;
+
+  /// No description provided for @fontSans.
+  ///
+  /// In en, this message translates to:
+  /// **'Sans serif font'**
+  String get fontSans;
+
+  /// No description provided for @fontSerif.
+  ///
+  /// In en, this message translates to:
+  /// **'Serif font'**
+  String get fontSerif;
+
+  /// No description provided for @typeHere.
+  ///
+  /// In en, this message translates to:
+  /// **'Type here'**
+  String get typeHere;
+
+  /// No description provided for @helpText.
+  ///
+  /// In en, this message translates to:
+  /// **'The text tool (T) writes where you click, in the colour and size chosen, with or without serifs. Enter puts the text in the drawing, Shift+Enter starts a new line and Escape gives up; clicking elsewhere also finishes it.'**
+  String get helpText;
 }
 
 class _AppLocalizationsDelegate

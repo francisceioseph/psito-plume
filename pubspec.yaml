@@ -29,3 +29,6 @@ flutter:
     - family: CardSerif
       fonts:
         - asset: assets/fonts/CardSerif-Bold.ttf
+    - family: PlumeSans
+      fonts:
+        - asset: assets/fonts/PlumeSans-Regular.ttf

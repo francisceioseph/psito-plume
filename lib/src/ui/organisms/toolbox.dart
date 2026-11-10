@@ -5,6 +5,7 @@ import '../../paint/plume_controller.dart';
 import '../atoms/colors.dart';
 import '../atoms/panel_divider.dart';
 import '../molecules/fill_picker.dart';
+import '../molecules/font_picker.dart';
 import '../molecules/size_picker.dart';
 import '../molecules/stamp_picker.dart';
 import '../molecules/tool_grid.dart';
@@ -42,6 +43,13 @@ class Toolbox extends StatelessWidget {
                 filled: controller.filled,
                 round: tool == Tool.ellipse,
                 onChanged: controller.setFilled,
+              ),
+            ],
+            if (tool == Tool.text) ...[
+              const PanelDivider(),
+              FontPicker(
+                serif: controller.textSerif,
+                onChanged: controller.setTextSerif,
               ),
             ],
             if (tool == Tool.stamp) ...[

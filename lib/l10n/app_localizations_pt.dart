@@ -244,4 +244,20 @@ class AppLocalizationsPt extends AppLocalizations {
   @override
   String get helpSelection =>
       'A seleção (M) marca um retângulo. Arraste de dentro dele para mover o que ele tem; ele fica solto até você clicar fora, apertar Esc ou trocar de ferramenta, e o Ctrl+Z devolve tudo ao lugar. Ctrl+C copia, Ctrl+X recorta, Ctrl+V cola uma imagem copiada aqui ou em outro programa, Ctrl+A seleciona tudo e Delete apaga a seleção.';
+
+  @override
+  String get toolText => 'Texto';
+
+  @override
+  String get fontSans => 'Fonte sem serifa';
+
+  @override
+  String get fontSerif => 'Fonte com serifa';
+
+  @override
+  String get typeHere => 'Digite aqui';
+
+  @override
+  String get helpText =>
+      'O texto (T) escreve onde você clicar, na cor e no tamanho escolhidos, com ou sem serifa. Enter põe o texto no desenho, Shift+Enter começa uma nova linha e Esc desiste; clicar em outro lugar também termina o texto.';
 }

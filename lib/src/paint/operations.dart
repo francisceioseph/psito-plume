@@ -10,6 +10,7 @@ enum Tool {
   eraser,
   fill,
   picker,
+  text,
   line,
   rectangle,
   ellipse,
@@ -32,6 +33,7 @@ extension ToolInfo on Tool {
     Tool.brush => const [3, 6, 12, 24],
     Tool.eraser => const [8, 16, 32, 56],
     Tool.stamp => const [48, 96, 160, 240],
+    Tool.text => const [16, 24, 36, 56],
     _ => const [1, 3, 6, 12],
   };
 
@@ -90,6 +92,36 @@ class ShapeOp extends Operation {
     filled: filled,
   );
 }
+
+class TextOp extends Operation {
+  const TextOp({
+    required this.text,
+    required this.position,
+    required this.size,
+    required this.color,
+    required this.serif,
+  });
+
+  final String text;
+
+  /// The top left corner of the first line.
+  final Offset position;
+  final double size;
+  final Color color;
+  final bool serif;
+}
+
+/// The look of the text tool, the same in the editor and in the pixels.
+TextStyle plumeTextStyle({
+  required double size,
+  required Color color,
+  required bool serif,
+}) => TextStyle(
+  fontFamily: serif ? 'CardSerif' : 'PlumeSans',
+  fontSize: size,
+  height: 1.25,
+  color: color,
+);
 
 class StampOp extends Operation {
   const StampOp({required this.level, required this.center, required this.size});
@@ -172,6 +204,16 @@ void paintOperation(Canvas canvas, Operation op, {ui.Image? stamp}) {
         default:
           canvas.drawRect(rect, paint);
       }
+    case TextOp():
+      final painter = TextPainter(
+        text: TextSpan(
+          text: op.text,
+          style: plumeTextStyle(size: op.size, color: op.color, serif: op.serif),
+        ),
+        textDirection: TextDirection.ltr,
+      )..layout();
+      painter.paint(canvas, op.position);
+      painter.dispose();
     case StampOp():
       if (stamp == null) return;
       final source = Size(stamp.width.toDouble(), stamp.height.toDouble());

@@ -246,4 +246,20 @@ class AppLocalizationsDe extends AppLocalizations {
   @override
   String get helpSelection =>
       'Die Auswahl (M) markiert ein Rechteck. Ziehe von innen, um den Inhalt zu verschieben; er bleibt lose, bis du außerhalb klickst, Esc drückst oder ein anderes Werkzeug wählst, und Strg+Z legt ihn zurück. Strg+C kopiert, Strg+X schneidet aus, Strg+V fügt ein hier oder in einem anderen Programm kopiertes Bild ein, Strg+A wählt alles aus und Entf löscht die Auswahl.';
+
+  @override
+  String get toolText => 'Text';
+
+  @override
+  String get fontSans => 'Serifenlose Schrift';
+
+  @override
+  String get fontSerif => 'Serifenschrift';
+
+  @override
+  String get typeHere => 'Hier tippen';
+
+  @override
+  String get helpText =>
+      'Das Textwerkzeug (T) schreibt dort, wo du klickst, in der gewählten Farbe und Größe, mit oder ohne Serifen. Enter setzt den Text in die Zeichnung, Umschalt+Enter beginnt eine neue Zeile und Esc verwirft ihn; ein Klick an anderer Stelle beendet ihn ebenfalls.';
 }
