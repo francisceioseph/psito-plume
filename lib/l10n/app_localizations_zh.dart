@@ -221,4 +221,26 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get dontSave => '不保存';
+
+  @override
+  String get toolSelect => '选择';
+
+  @override
+  String get copy => '复制';
+
+  @override
+  String get cut => '剪切';
+
+  @override
+  String get paste => '粘贴';
+
+  @override
+  String get selectAll => '全选';
+
+  @override
+  String get nothingToPaste => '没有可以粘贴的图片。';
+
+  @override
+  String get helpSelection =>
+      '选择工具（M）可以框出一个矩形。从框内拖动可以移动其中的内容；在你点击框外、按 Esc 或换用其他工具之前，它都可以自由移动，按 Ctrl+Z 会把它放回原处。Ctrl+C 复制，Ctrl+X 剪切，Ctrl+V 粘贴在这里或其他程序中复制的图片，Ctrl+A 全选，Delete 清除所选内容。';
 }

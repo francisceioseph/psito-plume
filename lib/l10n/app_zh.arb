@@ -63,5 +63,12 @@
   "bird11": "金色女王",
   "closeTitle": "保存对 {name} 的修改吗？",
   "closeBody": "如果不保存，修改将会丢失。",
-  "dontSave": "不保存"
+  "dontSave": "不保存",
+  "toolSelect": "选择",
+  "copy": "复制",
+  "cut": "剪切",
+  "paste": "粘贴",
+  "selectAll": "全选",
+  "nothingToPaste": "没有可以粘贴的图片。",
+  "helpSelection": "选择工具（M）可以框出一个矩形。从框内拖动可以移动其中的内容；在你点击框外、按 Esc 或换用其他工具之前，它都可以自由移动，按 Ctrl+Z 会把它放回原处。Ctrl+C 复制，Ctrl+X 剪切，Ctrl+V 粘贴在这里或其他程序中复制的图片，Ctrl+A 全选，Delete 清除所选内容。"
 }

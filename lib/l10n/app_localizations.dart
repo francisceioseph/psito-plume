@@ -491,6 +491,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Don\'t save'**
   String get dontSave;
+
+  /// No description provided for @toolSelect.
+  ///
+  /// In en, this message translates to:
+  /// **'Selection'**
+  String get toolSelect;
+
+  /// No description provided for @copy.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy'**
+  String get copy;
+
+  /// No description provided for @cut.
+  ///
+  /// In en, this message translates to:
+  /// **'Cut'**
+  String get cut;
+
+  /// No description provided for @paste.
+  ///
+  /// In en, this message translates to:
+  /// **'Paste'**
+  String get paste;
+
+  /// No description provided for @selectAll.
+  ///
+  /// In en, this message translates to:
+  /// **'Select all'**
+  String get selectAll;
+
+  /// No description provided for @nothingToPaste.
+  ///
+  /// In en, this message translates to:
+  /// **'There is no picture to paste.'**
+  String get nothingToPaste;
+
+  /// No description provided for @helpSelection.
+  ///
+  /// In en, this message translates to:
+  /// **'The selection (M) marks a rectangle. Drag from inside it to move what it holds; it stays loose until you click outside, press Escape or pick another tool, and Ctrl+Z puts it back. Ctrl+C copies, Ctrl+X cuts, Ctrl+V pastes a picture copied here or in another program, Ctrl+A selects everything and Delete clears the selection.'**
+  String get helpSelection;
 }
 
 class _AppLocalizationsDelegate

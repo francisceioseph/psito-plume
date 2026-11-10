@@ -224,4 +224,26 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get dontSave => 'Nicht speichern';
+
+  @override
+  String get toolSelect => 'Auswahl';
+
+  @override
+  String get copy => 'Kopieren';
+
+  @override
+  String get cut => 'Ausschneiden';
+
+  @override
+  String get paste => 'Einfügen';
+
+  @override
+  String get selectAll => 'Alles auswählen';
+
+  @override
+  String get nothingToPaste => 'Es gibt kein Bild zum Einfügen.';
+
+  @override
+  String get helpSelection =>
+      'Die Auswahl (M) markiert ein Rechteck. Ziehe von innen, um den Inhalt zu verschieben; er bleibt lose, bis du außerhalb klickst, Esc drückst oder ein anderes Werkzeug wählst, und Strg+Z legt ihn zurück. Strg+C kopiert, Strg+X schneidet aus, Strg+V fügt ein hier oder in einem anderen Programm kopiertes Bild ein, Strg+A wählt alles aus und Entf löscht die Auswahl.';
 }

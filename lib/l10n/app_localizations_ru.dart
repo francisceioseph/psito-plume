@@ -222,4 +222,26 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get dontSave => 'Не сохранять';
+
+  @override
+  String get toolSelect => 'Выделение';
+
+  @override
+  String get copy => 'Копировать';
+
+  @override
+  String get cut => 'Вырезать';
+
+  @override
+  String get paste => 'Вставить';
+
+  @override
+  String get selectAll => 'Выделить всё';
+
+  @override
+  String get nothingToPaste => 'Нет изображения для вставки.';
+
+  @override
+  String get helpSelection =>
+      'Выделение (M) отмечает прямоугольник. Потяните изнутри, чтобы переместить его содержимое; оно остаётся свободным, пока вы не щёлкнете снаружи, не нажмёте Esc или не выберете другой инструмент, а Ctrl+Z вернёт всё на место. Ctrl+C копирует, Ctrl+X вырезает, Ctrl+V вставляет изображение, скопированное здесь или в другой программе, Ctrl+A выделяет всё, а Delete стирает выделенное.';
 }

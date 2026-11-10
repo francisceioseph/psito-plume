@@ -225,4 +225,26 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get dontSave => 'Ne pas enregistrer';
+
+  @override
+  String get toolSelect => 'Sélection';
+
+  @override
+  String get copy => 'Copier';
+
+  @override
+  String get cut => 'Couper';
+
+  @override
+  String get paste => 'Coller';
+
+  @override
+  String get selectAll => 'Tout sélectionner';
+
+  @override
+  String get nothingToPaste => 'Il n’y a pas d’image à coller.';
+
+  @override
+  String get helpSelection =>
+      'La sélection (M) trace un rectangle. Glissez depuis l’intérieur pour déplacer son contenu ; il reste libre jusqu’à ce que vous cliquiez à l’extérieur, appuyiez sur Échap ou changiez d’outil, et Ctrl+Z le remet en place. Ctrl+C copie, Ctrl+X coupe, Ctrl+V colle une image copiée ici ou dans un autre programme, Ctrl+A sélectionne tout et Suppr efface la sélection.';
 }

@@ -63,5 +63,12 @@
   "bird11": "Reine dorée",
   "closeTitle": "Enregistrer les modifications de {name} ?",
   "closeBody": "Si vous n’enregistrez pas, les modifications seront perdues.",
-  "dontSave": "Ne pas enregistrer"
+  "dontSave": "Ne pas enregistrer",
+  "toolSelect": "Sélection",
+  "copy": "Copier",
+  "cut": "Couper",
+  "paste": "Coller",
+  "selectAll": "Tout sélectionner",
+  "nothingToPaste": "Il n’y a pas d’image à coller.",
+  "helpSelection": "La sélection (M) trace un rectangle. Glissez depuis l’intérieur pour déplacer son contenu ; il reste libre jusqu’à ce que vous cliquiez à l’extérieur, appuyiez sur Échap ou changiez d’outil, et Ctrl+Z le remet en place. Ctrl+C copie, Ctrl+X coupe, Ctrl+V colle une image copiée ici ou dans un autre programme, Ctrl+A sélectionne tout et Suppr efface la sélection."
 }

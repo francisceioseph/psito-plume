@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -87,6 +89,17 @@ class _Sheet extends StatelessWidget {
 
   Offset _toImage(Offset local) => local / controller.zoom;
 
+  /// A hand that moves over the selection, a fine cross everywhere else.
+  MouseCursor _cursor() {
+    final rect = controller.selectedRect;
+    final point = controller.cursor;
+    final overSelection = controller.tool == Tool.select &&
+        rect != null &&
+        point != null &&
+        rect.contains(point);
+    return overSelection ? SystemMouseCursors.move : SystemMouseCursors.precise;
+  }
+
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
@@ -96,7 +109,7 @@ class _Sheet extends StatelessWidget {
       image: true,
       label: l10n.canvasLabel(controller.width, controller.height),
       child: MouseRegion(
-        cursor: SystemMouseCursors.precise,
+        cursor: _cursor(),
         onHover: (event) => controller.setCursor(_toImage(event.localPosition)),
         onExit: (_) => controller.setCursor(null),
         child: Listener(
@@ -164,6 +177,49 @@ class _SheetPainter extends CustomPainter {
     }
     final live = controller.live;
     if (live != null) _paint(canvas, live);
+    final lifted = controller.floating;
+    if (lifted != null) {
+      canvas.drawImage(
+        lifted.image,
+        lifted.position,
+        Paint()..filterQuality = FilterQuality.none,
+      );
+    }
+    final rect = controller.selectedRect;
+    if (rect != null) _marchingAnts(canvas, rect, controller.zoom);
+  }
+
+  /// The dashed outline of the selection, one screen pixel wide at any zoom.
+  void _marchingAnts(Canvas canvas, Rect rect, double zoom) {
+    final width = 1 / zoom;
+    final box = rect.deflate(width / 2);
+    canvas.drawRect(
+      box,
+      Paint()
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = width
+        ..color = const Color(0xFFFFFFFF),
+    );
+    final dash = 4 / zoom;
+    final paint = Paint()
+      ..strokeWidth = width
+      ..color = const Color(0xFF1A1A1A);
+    void dashes(Offset from, Offset to) {
+      final length = (to - from).distance;
+      final step = (to - from) / length;
+      for (var d = 0.0; d < length; d += dash * 2) {
+        canvas.drawLine(
+          from + step * d,
+          from + step * min(d + dash, length),
+          paint,
+        );
+      }
+    }
+
+    dashes(box.topLeft, box.topRight);
+    dashes(box.topRight, box.bottomRight);
+    dashes(box.bottomRight, box.bottomLeft);
+    dashes(box.bottomLeft, box.topLeft);
   }
 
   void _paint(Canvas canvas, Operation op) => paintOperation(

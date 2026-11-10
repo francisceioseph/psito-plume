@@ -6,8 +6,11 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/services.dart';
 
+import '../platform/image_clipboard.dart';
 import 'operations.dart';
 import 'pixels.dart';
+
+part 'selection.dart';
 
 const defaultWidth = 800;
 const defaultHeight = 600;
@@ -46,8 +49,15 @@ Future<ui.Image> _draw(int width, int height, void Function(Canvas) paint) {
 /// Every change of the pixels goes through one queue, so that a fill, a
 /// stroke and an undo never overlap, whatever the speed of the hand.
 class PlumeController extends ChangeNotifier {
-  PlumeController({StampLoader? loadStamp, this.maxHistory = 40})
-    : _loadStamp = loadStamp ?? _stampFromAssets;
+  PlumeController({
+    StampLoader? loadStamp,
+    ImageClipboard? clipboard,
+    this.maxHistory = 40,
+  }) : _loadStamp = loadStamp ?? _stampFromAssets,
+       clipboard = clipboard ?? SystemImageClipboard();
+
+  /// Where copies go, besides [_copied], so that other programs see them.
+  final ImageClipboard clipboard;
 
   final StampLoader _loadStamp;
   final int maxHistory;
@@ -79,6 +89,16 @@ class PlumeController extends ChangeNotifier {
   /// Finished operations still turning into pixels, drawn meanwhile on top.
   final List<Operation> pending = [];
 
+  /// The area chosen with the selection tool, in pixels of the drawing.
+  Rect? selection;
+
+  /// Pixels lifted from the drawing, or pasted, still free to move.
+  Floating? floating;
+  Offset? _anchor;
+  Offset? _grab;
+  Offset? _pendingLift;
+  ClipboardImage? _copied;
+
   final Map<int, ui.Image> stamps = {};
   final List<ui.Image> _undo = [];
   final List<ui.Image> _redo = [];
@@ -90,6 +110,9 @@ class PlumeController extends ChangeNotifier {
 
   /// Done when every change asked so far is in the pixels.
   Future<void> get idle => _queue;
+
+  /// For the parts of the controller kept in other files.
+  void _changed() => notifyListeners();
 
   Future<void> _run(Future<void> Function() job) {
     final next = _queue.then((_) => job());
@@ -128,6 +151,7 @@ class PlumeController extends ChangeNotifier {
             Paint()..color = paperColor,
           );
         });
+        _forgetSelection();
         _clearHistory();
         image = blank;
         path = null;
@@ -150,6 +174,7 @@ class PlumeController extends ChangeNotifier {
       canvas.drawImage(picture, Offset.zero, Paint());
     });
     picture.dispose();
+    _forgetSelection();
     _clearHistory();
     image = flat;
     this.path = path;
@@ -159,6 +184,7 @@ class PlumeController extends ChangeNotifier {
   });
 
   Future<Uint8List> pngBytes() async {
+    await placeSelection();
     await idle;
     final data = await image!.toByteData(format: ui.ImageByteFormat.png);
     return data!.buffer.asUint8List();
@@ -171,6 +197,10 @@ class PlumeController extends ChangeNotifier {
   }
 
   void setTool(Tool next) {
+    if (next != Tool.select) {
+      placeSelection(keep: false);
+      selection = null;
+    }
     if (next == Tool.picker && tool != Tool.picker) _beforePicker = tool;
     tool = next;
     notifyListeners();
@@ -223,6 +253,8 @@ class PlumeController extends ChangeNotifier {
   void pointerDown(Offset point) {
     if (image == null) return;
     switch (tool) {
+      case Tool.select:
+        _selectDown(point);
       case Tool.fill:
         fill(point);
       case Tool.picker:
@@ -252,6 +284,10 @@ class PlumeController extends ChangeNotifier {
   }
 
   void pointerMove(Offset point, {bool constrain = false}) {
+    if (tool == Tool.select) {
+      _selectMove(point);
+      return;
+    }
     switch (live) {
       case final StrokeOp stroke:
         stroke.points.add(stroke.smooth ? point : _pixel(point));
@@ -266,6 +302,10 @@ class PlumeController extends ChangeNotifier {
   }
 
   void pointerUp() {
+    if (tool == Tool.select) {
+      _selectUp();
+      return;
+    }
     final op = live;
     if (op == null) return;
     live = null;
@@ -333,6 +373,12 @@ class PlumeController extends ChangeNotifier {
   });
 
   Future<void> undo() => _run(() async {
+    // A selection still moving goes back to where it was taken from.
+    if (floating != null) {
+      floating!.image.dispose();
+      floating = null;
+      selection = null;
+    }
     if (_undo.isEmpty) return;
     _redo.add(image!);
     image = _undo.removeLast();
@@ -341,7 +387,7 @@ class PlumeController extends ChangeNotifier {
   });
 
   Future<void> redo() => _run(() async {
-    if (_redo.isEmpty) return;
+    if (_redo.isEmpty || floating != null) return;
     _undo.add(image!);
     image = _redo.removeLast();
     dirty = true;
@@ -357,6 +403,7 @@ class PlumeController extends ChangeNotifier {
 
   @override
   void dispose() {
+    _forgetSelection();
     _clearHistory();
     image?.dispose();
     for (final stamp in stamps.values) {

@@ -63,5 +63,12 @@
   "bird11": "Reina dorada",
   "closeTitle": "¿Guardar los cambios en {name}?",
   "closeBody": "Si no guardas, los cambios se perderán.",
-  "dontSave": "No guardar"
+  "dontSave": "No guardar",
+  "toolSelect": "Selección",
+  "copy": "Copiar",
+  "cut": "Cortar",
+  "paste": "Pegar",
+  "selectAll": "Seleccionar todo",
+  "nothingToPaste": "No hay ninguna imagen para pegar.",
+  "helpSelection": "La selección (M) marca un rectángulo. Arrastra desde dentro para mover lo que contiene; queda suelto hasta que haces clic fuera, pulsas Esc o eliges otra herramienta, y Ctrl+Z lo devuelve a su lugar. Ctrl+C copia, Ctrl+X corta, Ctrl+V pega una imagen copiada aquí o en otro programa, Ctrl+A selecciona todo y Supr borra la selección."
 }

@@ -7,6 +7,7 @@ import '../paint/operations.dart';
 /// so that the toolbox, the menus and the help always say the same.
 
 String toolName(AppLocalizations l10n, Tool tool) => switch (tool) {
+  Tool.select => l10n.toolSelect,
   Tool.pencil => l10n.toolPencil,
   Tool.brush => l10n.toolBrush,
   Tool.eraser => l10n.toolEraser,
@@ -20,6 +21,7 @@ String toolName(AppLocalizations l10n, Tool tool) => switch (tool) {
 
 /// The key that picks each tool.
 String toolKey(Tool tool) => switch (tool) {
+  Tool.select => 'M',
   Tool.pencil => 'P',
   Tool.brush => 'B',
   Tool.eraser => 'E',
@@ -32,6 +34,7 @@ String toolKey(Tool tool) => switch (tool) {
 };
 
 IconData toolIcon(Tool tool) => switch (tool) {
+  Tool.select => Icons.highlight_alt_rounded,
   Tool.pencil => Icons.edit_rounded,
   Tool.brush => Icons.brush_rounded,
   Tool.eraser => Icons.auto_fix_normal_rounded,

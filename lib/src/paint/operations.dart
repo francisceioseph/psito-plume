@@ -3,7 +3,18 @@ import 'dart:ui' as ui;
 
 import 'package:flutter/painting.dart';
 
-enum Tool { pencil, brush, eraser, fill, picker, line, rectangle, ellipse, stamp }
+enum Tool {
+  select,
+  pencil,
+  brush,
+  eraser,
+  fill,
+  picker,
+  line,
+  rectangle,
+  ellipse,
+  stamp,
+}
 
 extension ToolInfo on Tool {
   /// Whether the tool works by dragging over the sheet.
@@ -24,7 +35,8 @@ extension ToolInfo on Tool {
     _ => const [1, 3, 6, 12],
   };
 
-  bool get hasSizes => this != Tool.fill && this != Tool.picker;
+  bool get hasSizes =>
+      this != Tool.fill && this != Tool.picker && this != Tool.select;
 }
 
 /// The colour of a blank sheet, and of what the eraser leaves.

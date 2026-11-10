@@ -142,5 +142,12 @@
     }
   },
   "closeBody": "If you do not save, the changes will be lost.",
-  "dontSave": "Don't save"
+  "dontSave": "Don't save",
+  "toolSelect": "Selection",
+  "copy": "Copy",
+  "cut": "Cut",
+  "paste": "Paste",
+  "selectAll": "Select all",
+  "nothingToPaste": "There is no picture to paste.",
+  "helpSelection": "The selection (M) marks a rectangle. Drag from inside it to move what it holds; it stays loose until you click outside, press Escape or pick another tool, and Ctrl+Z puts it back. Ctrl+C copies, Ctrl+X cuts, Ctrl+V pastes a picture copied here or in another program, Ctrl+A selects everything and Delete clears the selection."
 }

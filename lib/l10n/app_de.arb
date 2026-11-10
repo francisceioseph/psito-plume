@@ -63,5 +63,12 @@
   "bird11": "Goldene Königin",
   "closeTitle": "Änderungen an {name} speichern?",
   "closeBody": "Wenn du nicht speicherst, gehen die Änderungen verloren.",
-  "dontSave": "Nicht speichern"
+  "dontSave": "Nicht speichern",
+  "toolSelect": "Auswahl",
+  "copy": "Kopieren",
+  "cut": "Ausschneiden",
+  "paste": "Einfügen",
+  "selectAll": "Alles auswählen",
+  "nothingToPaste": "Es gibt kein Bild zum Einfügen.",
+  "helpSelection": "Die Auswahl (M) markiert ein Rechteck. Ziehe von innen, um den Inhalt zu verschieben; er bleibt lose, bis du außerhalb klickst, Esc drückst oder ein anderes Werkzeug wählst, und Strg+Z legt ihn zurück. Strg+C kopiert, Strg+X schneidet aus, Strg+V fügt ein hier oder in einem anderen Programm kopiertes Bild ein, Strg+A wählt alles aus und Entf löscht die Auswahl."
 }

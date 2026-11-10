@@ -195,9 +195,35 @@ class _PlumePageState extends State<PlumePage> {
           c.zoomOut,
       const SingleActivator(LogicalKeyboardKey.digit0, control: true): () =>
           c.setZoom(1),
+      const SingleActivator(LogicalKeyboardKey.keyC, control: true):
+          c.copySelection,
+      const SingleActivator(LogicalKeyboardKey.keyX, control: true):
+          c.cutSelection,
+      const SingleActivator(LogicalKeyboardKey.keyV, control: true): _paste,
+      const SingleActivator(LogicalKeyboardKey.keyA, control: true):
+          c.selectAll,
+      const SingleActivator(LogicalKeyboardKey.delete): c.deleteSelection,
+      const SingleActivator(LogicalKeyboardKey.escape): c.dropSelection,
       for (final tool in Tool.values)
         SingleActivator(letterKey(toolKey(tool))): () => c.setTool(tool),
     };
+  }
+
+  Future<void> _paste() async {
+    if (!await _controller.paste() && mounted) {
+      _message(context.l10n.nothingToPaste);
+    }
+  }
+
+  List<MenuAction> _editMenu() {
+    final l10n = context.l10n;
+    final c = _controller;
+    return [
+      MenuAction('${l10n.cut}  (Ctrl+X)', c.cutSelection),
+      MenuAction('${l10n.copy}  (Ctrl+C)', c.copySelection),
+      MenuAction('${l10n.paste}  (Ctrl+V)', _paste),
+      MenuAction('${l10n.selectAll}  (Ctrl+A)', c.selectAll),
+    ];
   }
 
   @override
@@ -221,7 +247,11 @@ class _PlumePageState extends State<PlumePage> {
             child: ListenableBuilder(
               listenable: c,
               builder: (context, _) => WorkspaceTemplate(
-                topBar: TopBar(controller: c, files: files),
+                topBar: TopBar(
+                  controller: c,
+                  files: files,
+                  menu: _editMenu(),
+                ),
                 toolbox: Toolbox(controller: c),
                 canvas: CanvasView(controller: c),
                 bottomBar: PaletteBar(controller: c),
