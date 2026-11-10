@@ -1,0 +1,214 @@
+// ignore: unused_import
+import 'package:intl/intl.dart' as intl;
+
+import 'app_localizations.dart';
+
+// ignore_for_file: type=lint
+
+/// The translations for Russian (`ru`).
+class AppLocalizationsRu extends AppLocalizations {
+  AppLocalizationsRu([String locale = 'ru']) : super(locale);
+
+  @override
+  String get appTitle => 'Psito Plume';
+
+  @override
+  String get untitled => 'Без названия';
+
+  @override
+  String get newImage => 'Новый рисунок';
+
+  @override
+  String get open => 'Открыть';
+
+  @override
+  String get save => 'Сохранить';
+
+  @override
+  String get saveAs => 'Сохранить как';
+
+  @override
+  String get undo => 'Отменить';
+
+  @override
+  String get redo => 'Повторить';
+
+  @override
+  String get zoomIn => 'Увеличить';
+
+  @override
+  String get zoomOut => 'Уменьшить';
+
+  @override
+  String get actualSize => 'Реальный размер';
+
+  @override
+  String get moreOptions => 'Ещё';
+
+  @override
+  String get howToUse => 'Как пользоваться';
+
+  @override
+  String get about => 'О программе';
+
+  @override
+  String get close => 'Закрыть';
+
+  @override
+  String get cancel => 'Отмена';
+
+  @override
+  String get create => 'Создать';
+
+  @override
+  String get choose => 'Выбрать';
+
+  @override
+  String get discard => 'Не сохранять';
+
+  @override
+  String get width => 'Ширина';
+
+  @override
+  String get height => 'Высота';
+
+  @override
+  String get images => 'Изображения';
+
+  @override
+  String get pngImage => 'Изображение PNG';
+
+  @override
+  String get discardTitle => 'Отказаться от рисунка?';
+
+  @override
+  String get discardBody => 'Несохранённые изменения будут потеряны.';
+
+  @override
+  String saved(String name) {
+    return 'Сохранено как $name';
+  }
+
+  @override
+  String openFailed(String name) {
+    return 'Не удалось открыть $name.';
+  }
+
+  @override
+  String saveFailed(String name) {
+    return 'Не удалось сохранить $name.';
+  }
+
+  @override
+  String get toolPencil => 'Карандаш';
+
+  @override
+  String get toolBrush => 'Кисть';
+
+  @override
+  String get toolEraser => 'Ластик';
+
+  @override
+  String get toolFill => 'Заливка';
+
+  @override
+  String get toolPicker => 'Пипетка';
+
+  @override
+  String get toolLine => 'Линия';
+
+  @override
+  String get toolRectangle => 'Прямоугольник';
+
+  @override
+  String get toolEllipse => 'Эллипс';
+
+  @override
+  String get toolStamp => 'Штамп с кореллой';
+
+  @override
+  String sizeOption(int pixels) {
+    return 'Размер $pixels px';
+  }
+
+  @override
+  String get outline => 'Только контур';
+
+  @override
+  String get filled => 'С заливкой';
+
+  @override
+  String get moreColors => 'Другие цвета';
+
+  @override
+  String currentColor(String code) {
+    return 'Текущий цвет, $code';
+  }
+
+  @override
+  String colorSwatch(String code) {
+    return 'Цвет $code';
+  }
+
+  @override
+  String get colorCode => 'Код цвета';
+
+  @override
+  String position(int x, int y) {
+    return '$x, $y px';
+  }
+
+  @override
+  String imageSize(int width, int height) {
+    return '$width × $height px';
+  }
+
+  @override
+  String canvasLabel(int width, int height) {
+    return 'Лист для рисования, $width на $height пикселей';
+  }
+
+  @override
+  String get howToUseBody =>
+      'Выберите инструмент слева и цвет внизу и рисуйте на листе. Квадрат внизу слева открывает другие цвета, с полем для кода цвета.\n\nКарандаш, кисть и ластик рисуют, пока вы ведёте мышь. Линия, прямоугольник и эллипс идут от места нажатия до места, где вы отпустили кнопку; с Shift получаются прямые углы, квадраты и круги. Заливка закрашивает область, пипетка берёт цвет из рисунка, а штамп ставит одного из корелл Psito Nest туда, где вы щёлкнули.\n\nКлавиши: P карандаш, B кисть, E ластик, F заливка, I пипетка, L линия, R прямоугольник, O эллипс, S штамп.\n\nCtrl+Z отменяет, Ctrl+Y повторяет. Ctrl+N начинает новый рисунок, Ctrl+O открывает изображение, Ctrl+S сохраняет его в PNG. Ctrl с колёсиком мыши или Ctrl+плюс и Ctrl+минус меняют масштаб; Ctrl+0 возвращает реальный размер.';
+
+  @override
+  String get aboutBody =>
+      'Маленькая программа для рисования с кореллами. Без рекламы, без телеметрии и без учётной записи.';
+
+  @override
+  String get aboutLegal => 'Код под лицензией Apache 2.0. Рисунки под CC0.';
+
+  @override
+  String get bird1 => 'Яйцо';
+
+  @override
+  String get bird2 => 'Яйцо проклёвывается';
+
+  @override
+  String get bird3 => 'Новорождённый';
+
+  @override
+  String get bird4 => 'Птенец';
+
+  @override
+  String get bird5 => 'Подросток';
+
+  @override
+  String get bird6 => 'Серый';
+
+  @override
+  String get bird7 => 'Жемчужный';
+
+  @override
+  String get bird8 => 'Коричный';
+
+  @override
+  String get bird9 => 'Лютино';
+
+  @override
+  String get bird10 => 'Пегий';
+
+  @override
+  String get bird11 => 'Золотая королева';
+}

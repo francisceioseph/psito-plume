@@ -17,7 +17,7 @@ No ads, no telemetry and no account: just some drawing and some happiness.
 - Opens PNG, JPEG, GIF, BMP and WebP, and saves PNG
 - A curious cockatiel that peeks at the sheet when you stop to think
 - Keyboard shortcuts for every tool; see **How to use** in the app
-- English and Portuguese
+- In English, Portuguese, Spanish, French, German, Russian and Chinese, the same languages as [Psito Player](https://github.com/francisceioseph/psito-player)
 
 ## Install
 
