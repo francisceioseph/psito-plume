@@ -1,2 +1,2 @@
 /// Written by tool/set-version.sh on each release.
-const appVersion = '1.4.0';
+const appVersion = '1.5.0';
