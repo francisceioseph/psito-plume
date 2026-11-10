@@ -1,7 +1,7 @@
 name: psito_plume
 description: "A little paint program with cockatiels. No ads, no telemetry, no account."
 publish_to: 'none'
-version: 1.3.0
+version: 1.4.0
 
 environment:
   sdk: ^3.13.3
