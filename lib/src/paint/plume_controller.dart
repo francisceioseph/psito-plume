@@ -85,8 +85,12 @@ class PlumeController extends ChangeNotifier {
   int stampLevel = 6;
   double zoom = 1;
 
-  /// The pointer over the sheet, in pixels of the drawing.
-  Offset? cursor;
+  /// The pointer over the sheet, in pixels of the drawing. Apart from the
+  /// rest, so that moving the mouse only redraws the sheet and the status.
+  final ValueNotifier<Offset?> pointer = ValueNotifier(null);
+
+  Offset? get cursor => pointer.value;
+  set cursor(Offset? point) => pointer.value = point;
 
   /// The operation the pointer is drawing now.
   Operation? live;
@@ -207,6 +211,7 @@ class PlumeController extends ChangeNotifier {
   }
 
   void setTool(Tool next) {
+    if (next == Tool.stamp) _preloadStamp();
     if (next != Tool.select) {
       placeSelection(keep: false);
       selection = null;
@@ -236,6 +241,7 @@ class PlumeController extends ChangeNotifier {
 
   void setStamp(int level) {
     stampLevel = level;
+    _preloadStamp();
     tool = Tool.stamp;
     notifyListeners();
   }
@@ -252,10 +258,7 @@ class PlumeController extends ChangeNotifier {
     zoomLevels.lastWhere((z) => z < zoom, orElse: () => zoom),
   );
 
-  void setCursor(Offset? point) {
-    cursor = point;
-    notifyListeners();
-  }
+  void setCursor(Offset? point) => cursor = point;
 
   Offset _pixel(Offset point) => Offset(
     point.dx.floorToDouble() + .5,
@@ -395,6 +398,13 @@ class PlumeController extends ChangeNotifier {
     _push(await imageFromPixels(out, base.width, base.height));
   }
 
+  /// Loads the stamp in use, so that its preview can follow the pointer.
+  void _preloadStamp() {
+    final level = stampLevel;
+    if (stamps.containsKey(level)) return;
+    stampImage(level).then((_) => notifyListeners(), onError: (_) {});
+  }
+
   Future<ui.Image> stampImage(int level) async =>
       stamps[level] ??= await _loadStamp(level);
 
@@ -473,8 +483,19 @@ class PlumeController extends ChangeNotifier {
     return zoomLevels.lastWhere((z) => z <= fit, orElse: () => zoomLevels.first);
   }
 
+  bool _disposed = false;
+
+  /// Work in the queue, or a stamp still loading, can finish after the page
+  /// is gone; then there is no one left to tell.
+  @override
+  void notifyListeners() {
+    if (!_disposed) super.notifyListeners();
+  }
+
   @override
   void dispose() {
+    _disposed = true;
+    pointer.dispose();
     _forgetSelection();
     _clearHistory();
     image?.dispose();

@@ -52,10 +52,13 @@ class PaletteBar extends StatelessWidget {
           ),
         ),
         const SizedBox(width: 12),
-        StatusInfo(
-          cursor: controller.cursor,
-          width: controller.width,
-          height: controller.height,
+        ValueListenableBuilder(
+          valueListenable: controller.pointer,
+          builder: (context, cursor, _) => StatusInfo(
+            cursor: cursor,
+            width: controller.width,
+            height: controller.height,
+          ),
         ),
       ],
     ),

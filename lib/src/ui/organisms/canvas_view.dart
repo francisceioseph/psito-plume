@@ -91,9 +91,8 @@ class _Sheet extends StatelessWidget {
   Offset _toImage(Offset local) => local / controller.zoom;
 
   /// A hand that moves over the selection, a fine cross everywhere else.
-  MouseCursor _cursor() {
+  MouseCursor _cursor(Offset? point) {
     final rect = controller.selectedRect;
-    final point = controller.cursor;
     final overSelection = controller.tool == Tool.select &&
         rect != null &&
         point != null &&
@@ -109,10 +108,15 @@ class _Sheet extends StatelessWidget {
     return Semantics(
       image: true,
       label: l10n.canvasLabel(controller.width, controller.height),
-      child: MouseRegion(
-        cursor: _cursor(),
-        onHover: (event) => controller.setCursor(_toImage(event.localPosition)),
-        onExit: (_) => controller.setCursor(null),
+      child: ValueListenableBuilder(
+        valueListenable: controller.pointer,
+        builder: (context, point, child) => MouseRegion(
+          cursor: _cursor(point),
+          onHover: (event) =>
+              controller.setCursor(_toImage(event.localPosition)),
+          onExit: (_) => controller.setCursor(null),
+          child: child,
+        ),
         // The text being typed sits on top, apart from the listener, so that
         // clicks inside it do not start a new text.
         child: Stack(
@@ -175,7 +179,8 @@ class _Sheet extends StatelessWidget {
 }
 
 class _SheetPainter extends CustomPainter {
-  _SheetPainter(this.controller) : super(repaint: controller);
+  _SheetPainter(this.controller)
+    : super(repaint: Listenable.merge([controller, controller.pointer]));
 
   final PlumeController controller;
 
@@ -211,6 +216,66 @@ class _SheetPainter extends CustomPainter {
     }
     final rect = controller.selectedRect;
     if (rect != null) _marchingAnts(canvas, rect, controller.zoom);
+    final point = controller.cursor;
+    if (point != null && controller.live == null) {
+      _preview(canvas, point, controller.zoom);
+    }
+  }
+
+  /// What the tool will paint, under the pointer: the outline of the brush,
+  /// or a see-through stamp.
+  void _preview(Canvas canvas, Offset point, double zoom) {
+    final c = controller;
+    switch (c.tool) {
+      case Tool.brush || Tool.eraser || Tool.pencil:
+        final side = max(c.size, 3 / zoom);
+        final shape = c.tool == Tool.pencil
+            ? (Path()..addRect(
+                Rect.fromCenter(
+                  center: Offset(
+                    point.dx.floorToDouble() + .5,
+                    point.dy.floorToDouble() + .5,
+                  ),
+                  width: side,
+                  height: side,
+                ),
+              ))
+            : (Path()..addOval(Rect.fromCircle(center: point, radius: side / 2)));
+        canvas
+          ..drawPath(
+            shape,
+            Paint()
+              ..style = PaintingStyle.stroke
+              ..strokeWidth = 3 / zoom
+              ..color = const Color(0xAAFFFFFF),
+          )
+          ..drawPath(
+            shape,
+            Paint()
+              ..style = PaintingStyle.stroke
+              ..strokeWidth = 1 / zoom
+              ..color = const Color(0xCC1A1A1A),
+          );
+      case Tool.stamp:
+        final stamp = c.stamps[c.stampLevel];
+        if (stamp == null) return;
+        final source = Size(stamp.width.toDouble(), stamp.height.toDouble());
+        final op = StampOp(
+          level: c.stampLevel,
+          center: point,
+          size: Tool.stamp.sizes[c.sizeIndex],
+        );
+        canvas.drawImageRect(
+          stamp,
+          Offset.zero & source,
+          stampRect(op, source),
+          Paint()
+            ..filterQuality = FilterQuality.medium
+            ..color = const Color(0x80000000),
+        );
+      default:
+        return;
+    }
   }
 
   /// The dashed outline of the selection, one screen pixel wide at any zoom.
