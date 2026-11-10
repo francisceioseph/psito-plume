@@ -9,12 +9,16 @@ No ads, no telemetry and no account: just some drawing and some happiness.
 
 ## Features
 
-- Pencil, brush, eraser, paint bucket, colour picker, line, rectangle and ellipse
+- Pencil, brush, spray, eraser, paint bucket, colour picker and text, in two fonts
+- Line, curve, arrow, rectangle, rounded rectangle, ellipse and polygon, outlined or filled
+- A feather brush that lays cockatiel feathers along the stroke
 - Stamps with the eleven cockatiels of Psito Nest, from the egg to the golden queen
-- A palette of twenty colours, and any other one by its code
-- Undo and redo, many steps back
-- Zoom up to 800%, with the pixels showing as squares
-- Opens PNG, JPEG, GIF, BMP and WebP, and saves PNG
+- Selection with move, cut, copy, paste and delete, also with pictures from other programs
+- Resize, rotate, flip and crop the drawing or the selection
+- Two colours, for the left and the right button, from a palette of twenty or any code
+- Undo and redo, many steps back, and a question before closing with changes not saved
+- Zoom up to 800%, with the pixels showing as squares, and a preview of the brush and stamps
+- Opens PNG, JPEG, GIF, BMP and WebP, also dropped on the window or with Open with, and saves PNG
 - A curious cockatiel that peeks at the sheet when you stop to think
 - Keyboard shortcuts for every tool; see **How to use** in the app
 - In English, Portuguese, Spanish, French, German, Russian and Chinese, the same languages as [Psito Player](https://github.com/francisceioseph/psito-player)
