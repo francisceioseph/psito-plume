@@ -141,11 +141,6 @@ class AppLocalizationsZh extends AppLocalizations {
   String get moreColors => '更多颜色';
 
   @override
-  String currentColor(String code) {
-    return '当前颜色，$code';
-  }
-
-  @override
   String colorSwatch(String code) {
     return '颜色 $code';
   }
@@ -296,4 +291,21 @@ class AppLocalizationsZh extends AppLocalizations {
   @override
   String get helpImage =>
       '工具栏上的“图像”菜单可以调整选区的大小、旋转和翻转选区；没有选区时作用于整幅画。“画纸大小”会添加纸张或裁掉边缘而不拉伸，“裁剪”只保留选中的部分。Ctrl+W 调整大小，Ctrl+E 修改画纸，Ctrl+R 和 Ctrl+Shift+R 旋转，Ctrl+Shift+X 裁剪。';
+
+  @override
+  String primaryColor(String code) {
+    return '主颜色，左键，$code';
+  }
+
+  @override
+  String secondaryColor(String code) {
+    return '次颜色，右键，$code';
+  }
+
+  @override
+  String get swapColors => '交换颜色';
+
+  @override
+  String get helpColors =>
+      '有两种颜色：主颜色用于左键，次颜色（初始为白色）用于右键。在调色板上，左键选择主颜色，右键选择次颜色；按 X 交换两者。用右键使用橡皮时，只擦除主颜色，其余部分保留。';
 }

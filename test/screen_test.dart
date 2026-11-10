@@ -1,5 +1,6 @@
 import 'dart:ui' as ui;
 
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -100,13 +101,15 @@ void main() {
   });
 
   testWidgets('the colour code picks any colour', (tester) async {
+    final handle = tester.ensureSemantics();
     final c = await pumpScreen(tester);
-    await tester.tap(find.byTooltip('Mais cores'));
+    await tester.tap(find.bySemanticsLabel(RegExp('^Cor principal')));
     await tester.pumpAndSettle();
     await tester.enterText(find.byType(TextField), '12AB34');
     await tester.tap(find.text('Escolher'));
     await tester.pumpAndSettle();
     expect(c.color, const Color(0xFF12AB34));
+    handle.dispose();
     await finish(tester);
   });
 
@@ -197,6 +200,42 @@ void main() {
     await tester.pump();
     await settle(tester, c);
     expect((c.width, c.height), (600, 400));
+    await finish(tester);
+  });
+
+  testWidgets('the right button paints with the second colour', (tester) async {
+    final handle = tester.ensureSemantics();
+    final c = await pumpScreen(tester);
+    c.setSecondary(const Color(0xFF00FF00));
+    final topLeft = tester.getTopLeft(sheet);
+    final gesture = await tester.startGesture(
+      topLeft + const Offset(20, 60),
+      buttons: kSecondaryMouseButton,
+      kind: PointerDeviceKind.mouse,
+    );
+    await gesture.moveBy(const Offset(150, 0));
+    await gesture.up();
+    await tester.pump();
+    expect(await pixel(tester, c, 90, 60), 0xFF00FF00);
+    handle.dispose();
+    await finish(tester);
+  });
+
+  testWidgets('X swaps the colours and the palette takes the right button', (
+    tester,
+  ) async {
+    final handle = tester.ensureSemantics();
+    final c = await pumpScreen(tester);
+    await tester.tap(
+      find.bySemanticsLabel('Cor D9442E'),
+      buttons: kSecondaryMouseButton,
+    );
+    expect(c.secondary, const Color(0xFFD9442E));
+    final before = c.color;
+    await tester.sendKeyEvent(LogicalKeyboardKey.keyX);
+    expect(c.color, const Color(0xFFD9442E));
+    expect(c.secondary, before);
+    handle.dispose();
     await finish(tester);
   });
 }

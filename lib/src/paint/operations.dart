@@ -56,9 +56,14 @@ class StrokeOp extends Operation {
     required this.width,
     required this.smooth,
     required List<Offset> points,
+    this.onlyColor,
   }) : points = List.of(points);
 
   final Color color;
+
+  /// When set, the stroke only paints over pixels of this colour: the eraser
+  /// with the right button, which takes away one colour and keeps the rest.
+  final Color? onlyColor;
   final double width;
 
   /// A round, soft brush. Without it, a hard pencil with square ends.
@@ -163,7 +168,9 @@ void paintOperation(Canvas canvas, Operation op, {ui.Image? stamp}) {
   switch (op) {
     case StrokeOp():
       final paint = Paint()
-        ..color = op.color
+        // Before it is done, a stroke that erases one colour shows as a
+        // shadow of where it went.
+        ..color = op.onlyColor == null ? op.color : const Color(0x55808080)
         ..isAntiAlias = op.smooth;
       final first = op.points.first;
       if (op.points.length == 1) {

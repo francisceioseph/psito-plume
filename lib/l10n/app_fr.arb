@@ -41,7 +41,6 @@
   "outline": "Contour seulement",
   "filled": "Rempli",
   "moreColors": "Plus de couleurs",
-  "currentColor": "Couleur utilisée, {code}",
   "colorSwatch": "Couleur {code}",
   "colorCode": "Code de la couleur",
   "position": "{x}, {y} px",
@@ -87,5 +86,9 @@
   "crop": "Rogner à la sélection",
   "keepRatio": "Garder les proportions",
   "apply": "Appliquer",
-  "helpImage": "Le menu Image de la barre redimensionne, fait pivoter et retourne la sélection, ou tout le dessin quand rien n’est sélectionné. Taille de la feuille ajoute du papier ou coupe les bords sans étirer, et Rogner ne garde que la sélection. Ctrl+W redimensionne, Ctrl+E change la feuille, Ctrl+R et Ctrl+Maj+R font pivoter et Ctrl+Maj+X rogne."
+  "helpImage": "Le menu Image de la barre redimensionne, fait pivoter et retourne la sélection, ou tout le dessin quand rien n’est sélectionné. Taille de la feuille ajoute du papier ou coupe les bords sans étirer, et Rogner ne garde que la sélection. Ctrl+W redimensionne, Ctrl+E change la feuille, Ctrl+R et Ctrl+Maj+R font pivoter et Ctrl+Maj+X rogne.",
+  "primaryColor": "Couleur principale, bouton gauche, {code}",
+  "secondaryColor": "Couleur secondaire, bouton droit, {code}",
+  "swapColors": "Échanger les couleurs",
+  "helpColors": "Il y a deux couleurs : la principale pour le bouton gauche et la secondaire, blanche au départ, pour le bouton droit. Sur la palette, le bouton gauche choisit la principale et le droit la secondaire ; X les échange. La gomme au bouton droit n’efface que la couleur principale et garde le reste."
 }

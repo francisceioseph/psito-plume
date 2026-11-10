@@ -204,6 +204,9 @@ class _PlumePageState extends State<PlumePage> {
       const SingleActivator(LogicalKeyboardKey.keyA, control: true):
           c.selectAll,
       const SingleActivator(LogicalKeyboardKey.delete): c.deleteSelection,
+      const SingleActivator(LogicalKeyboardKey.keyX): () {
+        if (c.textDraft == null) c.swapColors();
+      },
       const SingleActivator(LogicalKeyboardKey.keyW, control: true): () =>
           _imageAction(ImageAction.resize),
       const SingleActivator(LogicalKeyboardKey.keyE, control: true): () =>

@@ -141,11 +141,6 @@ class AppLocalizationsEs extends AppLocalizations {
   String get moreColors => 'Más colores';
 
   @override
-  String currentColor(String code) {
-    return 'Color en uso, $code';
-  }
-
-  @override
   String colorSwatch(String code) {
     return 'Color $code';
   }
@@ -297,4 +292,21 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String get helpImage =>
       'El menú Imagen de la barra cambia el tamaño, gira y voltea la selección, o todo el dibujo cuando no hay nada seleccionado. Tamaño de la hoja añade papel o corta los bordes sin estirar, y Recortar deja solo lo seleccionado. Ctrl+W cambia el tamaño, Ctrl+E cambia la hoja, Ctrl+R y Ctrl+Shift+R giran y Ctrl+Shift+X recorta.';
+
+  @override
+  String primaryColor(String code) {
+    return 'Color principal, botón izquierdo, $code';
+  }
+
+  @override
+  String secondaryColor(String code) {
+    return 'Color secundario, botón derecho, $code';
+  }
+
+  @override
+  String get swapColors => 'Intercambiar los colores';
+
+  @override
+  String get helpColors =>
+      'Hay dos colores: el principal, para el botón izquierdo, y el secundario, blanco al principio, para el botón derecho. En la paleta, el botón izquierdo elige el principal y el derecho el secundario; X los intercambia. La goma con el botón derecho solo borra el color principal y deja lo demás.';
 }

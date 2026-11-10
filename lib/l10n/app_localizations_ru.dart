@@ -141,11 +141,6 @@ class AppLocalizationsRu extends AppLocalizations {
   String get moreColors => 'Другие цвета';
 
   @override
-  String currentColor(String code) {
-    return 'Текущий цвет, $code';
-  }
-
-  @override
   String colorSwatch(String code) {
     return 'Цвет $code';
   }
@@ -297,4 +292,21 @@ class AppLocalizationsRu extends AppLocalizations {
   @override
   String get helpImage =>
       'Меню «Изображение» на панели меняет размер, поворачивает и отражает выделение или весь рисунок, если ничего не выделено. «Размер листа» добавляет бумагу или обрезает края без растягивания, а «Обрезать» оставляет только выделенное. Ctrl+W меняет размер, Ctrl+E меняет лист, Ctrl+R и Ctrl+Shift+R поворачивают, а Ctrl+Shift+X обрезает.';
+
+  @override
+  String primaryColor(String code) {
+    return 'Основной цвет, левая кнопка, $code';
+  }
+
+  @override
+  String secondaryColor(String code) {
+    return 'Дополнительный цвет, правая кнопка, $code';
+  }
+
+  @override
+  String get swapColors => 'Поменять цвета местами';
+
+  @override
+  String get helpColors =>
+      'Цветов два: основной для левой кнопки и дополнительный, сначала белый, для правой. На палитре левая кнопка выбирает основной цвет, а правая — дополнительный; X меняет их местами. Ластик с правой кнопкой стирает только основной цвет и оставляет остальное.';
 }

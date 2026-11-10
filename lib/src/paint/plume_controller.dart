@@ -77,6 +77,9 @@ class PlumeController extends ChangeNotifier {
   Tool tool = Tool.brush;
   Tool _beforePicker = Tool.brush;
   Color color = const Color(0xFF2B2B33);
+
+  /// The colour of the right button.
+  Color secondary = paperColor;
   int sizeIndex = 1;
   bool filled = false;
   int stampLevel = 6;
@@ -259,33 +262,50 @@ class PlumeController extends ChangeNotifier {
     point.dy.floorToDouble() + .5,
   );
 
+  void setSecondary(Color next) {
+    secondary = next;
+    notifyListeners();
+  }
+
+  void swapColors() {
+    final first = color;
+    color = secondary;
+    secondary = first;
+    textDraft?.color = color;
+    notifyListeners();
+  }
+
   /// The pointer goes down on the sheet, at [point] in pixels of the drawing.
-  void pointerDown(Offset point) {
+  /// With [secondary], it is the right button.
+  void pointerDown(Offset point, {bool secondary = false}) {
     if (image == null) return;
+    final paint = secondary ? this.secondary : color;
     switch (tool) {
       case Tool.select:
         _selectDown(point);
       case Tool.text:
         startText(point);
       case Tool.fill:
-        fill(point);
+        fill(point, color: paint);
       case Tool.picker:
-        pick(point);
+        pick(point, secondary: secondary);
       case Tool.stamp:
         stamp(point);
       case Tool.pencil || Tool.brush || Tool.eraser:
         final smooth = tool != Tool.pencil;
+        final eraser = tool == Tool.eraser;
         live = StrokeOp(
-          color: tool == Tool.eraser ? paperColor : color,
+          color: eraser ? paperColor : paint,
           width: size,
           smooth: smooth,
           points: [smooth ? point : _pixel(point)],
+          onlyColor: eraser && secondary ? color : null,
         );
         notifyListeners();
       case Tool.line || Tool.rectangle || Tool.ellipse:
         live = ShapeOp(
           tool: tool,
-          color: color,
+          color: paint,
           width: tool.sizes[sizeIndex],
           start: point,
           end: point,
@@ -333,6 +353,12 @@ class PlumeController extends ChangeNotifier {
     _run(() async {
       final stampImage = op is StampOp ? stamps[op.level] : null;
       final base = image!;
+      if (op is StrokeOp && op.onlyColor != null) {
+        await _eraseOneColor(base, op);
+        pending.remove(op);
+        notifyListeners();
+        return;
+      }
       final next = await _draw(base.width, base.height, (canvas) {
         canvas.drawImage(base, Offset.zero, Paint());
         paintOperation(canvas, op, stamp: stampImage);
@@ -341,6 +367,32 @@ class PlumeController extends ChangeNotifier {
       pending.remove(op);
       notifyListeners();
     });
+  }
+
+  /// The right button eraser: paper over the main colour, only where the
+  /// stroke went.
+  Future<void> _eraseOneColor(ui.Image base, StrokeOp op) async {
+    final shape = await _draw(base.width, base.height, (canvas) {
+      paintOperation(
+        canvas,
+        StrokeOp(
+          color: paperColor,
+          width: op.width,
+          smooth: op.smooth,
+          points: op.points,
+        ),
+      );
+    });
+    final mask = await shape.toByteData(format: ui.ImageByteFormat.rawRgba);
+    shape.dispose();
+    final out = replaceUnderMask(
+      rgba: await _pixels(),
+      mask: mask!.buffer.asUint8List(),
+      from: op.onlyColor!.toARGB32(),
+      to: paperColor.toARGB32(),
+    );
+    if (out == null) return;
+    _push(await imageFromPixels(out, base.width, base.height));
   }
 
   Future<ui.Image> stampImage(int level) async =>
@@ -357,7 +409,7 @@ class PlumeController extends ChangeNotifier {
     return data!.buffer.asUint8List();
   }
 
-  Future<void> fill(Offset point) => _run(() async {
+  Future<void> fill(Offset point, {Color? color}) => _run(() async {
     final base = image!;
     final rgba = await _pixels();
     final request = FillRequest(
@@ -366,7 +418,7 @@ class PlumeController extends ChangeNotifier {
       height: base.height,
       x: point.dx.floor(),
       y: point.dy.floor(),
-      color: color.toARGB32(),
+      color: (color ?? this.color).toARGB32(),
     );
     // Big sheets go to another isolate, so that the window does not freeze.
     final out = base.width * base.height > 500000
@@ -378,11 +430,16 @@ class PlumeController extends ChangeNotifier {
   });
 
   /// Takes the colour under [point] and goes back to the tool from before.
-  Future<void> pick(Offset point) => _run(() async {
+  Future<void> pick(Offset point, {bool secondary = false}) => _run(() async {
     final x = point.dx.floor();
     final y = point.dy.floor();
     if (x < 0 || y < 0 || x >= width || y >= height) return;
-    color = Color(pixelAt(await _pixels(), width, x, y));
+    final picked = Color(pixelAt(await _pixels(), width, x, y));
+    if (secondary) {
+      this.secondary = picked;
+    } else {
+      color = picked;
+    }
     tool = _beforePicker;
     notifyListeners();
   });

@@ -142,11 +142,6 @@ class AppLocalizationsFr extends AppLocalizations {
   String get moreColors => 'Plus de couleurs';
 
   @override
-  String currentColor(String code) {
-    return 'Couleur utilisée, $code';
-  }
-
-  @override
   String colorSwatch(String code) {
     return 'Couleur $code';
   }
@@ -300,4 +295,21 @@ class AppLocalizationsFr extends AppLocalizations {
   @override
   String get helpImage =>
       'Le menu Image de la barre redimensionne, fait pivoter et retourne la sélection, ou tout le dessin quand rien n’est sélectionné. Taille de la feuille ajoute du papier ou coupe les bords sans étirer, et Rogner ne garde que la sélection. Ctrl+W redimensionne, Ctrl+E change la feuille, Ctrl+R et Ctrl+Maj+R font pivoter et Ctrl+Maj+X rogne.';
+
+  @override
+  String primaryColor(String code) {
+    return 'Couleur principale, bouton gauche, $code';
+  }
+
+  @override
+  String secondaryColor(String code) {
+    return 'Couleur secondaire, bouton droit, $code';
+  }
+
+  @override
+  String get swapColors => 'Échanger les couleurs';
+
+  @override
+  String get helpColors =>
+      'Il y a deux couleurs : la principale pour le bouton gauche et la secondaire, blanche au départ, pour le bouton droit. Sur la palette, le bouton gauche choisit la principale et le droit la secondaire ; X les échange. La gomme au bouton droit n’efface que la couleur principale et garde le reste.';
 }

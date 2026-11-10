@@ -69,14 +69,6 @@
   "outline": "Outline only",
   "filled": "Filled",
   "moreColors": "More colours",
-  "currentColor": "Colour in use, {code}",
-  "@currentColor": {
-    "placeholders": {
-      "code": {
-        "type": "String"
-      }
-    }
-  },
   "colorSwatch": "Colour {code}",
   "@colorSwatch": {
     "placeholders": {
@@ -166,5 +158,23 @@
   "crop": "Crop to the selection",
   "keepRatio": "Keep the proportion",
   "apply": "Apply",
-  "helpImage": "The image menu in the bar resizes, rotates and flips the selection, or the whole drawing when nothing is selected. Sheet size adds paper or cuts the edges without stretching, and Crop keeps only what is selected. Ctrl+W resizes, Ctrl+E changes the sheet, Ctrl+R and Ctrl+Shift+R rotate and Ctrl+Shift+X crops."
+  "helpImage": "The image menu in the bar resizes, rotates and flips the selection, or the whole drawing when nothing is selected. Sheet size adds paper or cuts the edges without stretching, and Crop keeps only what is selected. Ctrl+W resizes, Ctrl+E changes the sheet, Ctrl+R and Ctrl+Shift+R rotate and Ctrl+Shift+X crops.",
+  "primaryColor": "Main colour, left button, {code}",
+  "@primaryColor": {
+    "placeholders": {
+      "code": {
+        "type": "String"
+      }
+    }
+  },
+  "secondaryColor": "Second colour, right button, {code}",
+  "@secondaryColor": {
+    "placeholders": {
+      "code": {
+        "type": "String"
+      }
+    }
+  },
+  "swapColors": "Swap the colours",
+  "helpColors": "There are two colours: the main one for the left button and the second one, white at first, for the right button. On the palette, the left button picks the main colour and the right button the second; X swaps them. The eraser with the right button only takes away the main colour and keeps the rest."
 }

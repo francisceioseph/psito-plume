@@ -120,8 +120,12 @@ class _Sheet extends StatelessWidget {
           children: [
             Listener(
               onPointerDown: (event) {
-                if (event.buttons != kPrimaryButton) return;
-                controller.pointerDown(_toImage(event.localPosition));
+                final right = event.buttons == kSecondaryMouseButton;
+                if (event.buttons != kPrimaryButton && !right) return;
+                controller.pointerDown(
+                  _toImage(event.localPosition),
+                  secondary: right,
+                );
               },
               onPointerMove: (event) {
                 final point = _toImage(event.localPosition);

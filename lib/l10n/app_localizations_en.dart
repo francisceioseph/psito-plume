@@ -141,11 +141,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get moreColors => 'More colours';
 
   @override
-  String currentColor(String code) {
-    return 'Colour in use, $code';
-  }
-
-  @override
   String colorSwatch(String code) {
     return 'Colour $code';
   }
@@ -297,4 +292,21 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get helpImage =>
       'The image menu in the bar resizes, rotates and flips the selection, or the whole drawing when nothing is selected. Sheet size adds paper or cuts the edges without stretching, and Crop keeps only what is selected. Ctrl+W resizes, Ctrl+E changes the sheet, Ctrl+R and Ctrl+Shift+R rotate and Ctrl+Shift+X crops.';
+
+  @override
+  String primaryColor(String code) {
+    return 'Main colour, left button, $code';
+  }
+
+  @override
+  String secondaryColor(String code) {
+    return 'Second colour, right button, $code';
+  }
+
+  @override
+  String get swapColors => 'Swap the colours';
+
+  @override
+  String get helpColors =>
+      'There are two colours: the main one for the left button and the second one, white at first, for the right button. On the palette, the left button picks the main colour and the right button the second; X swaps them. The eraser with the right button only takes away the main colour and keeps the rest.';
 }

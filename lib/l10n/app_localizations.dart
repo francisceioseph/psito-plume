@@ -354,12 +354,6 @@ abstract class AppLocalizations {
   /// **'More colours'**
   String get moreColors;
 
-  /// No description provided for @currentColor.
-  ///
-  /// In en, this message translates to:
-  /// **'Colour in use, {code}'**
-  String currentColor(String code);
-
   /// No description provided for @colorSwatch.
   ///
   /// In en, this message translates to:
@@ -635,6 +629,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'The image menu in the bar resizes, rotates and flips the selection, or the whole drawing when nothing is selected. Sheet size adds paper or cuts the edges without stretching, and Crop keeps only what is selected. Ctrl+W resizes, Ctrl+E changes the sheet, Ctrl+R and Ctrl+Shift+R rotate and Ctrl+Shift+X crops.'**
   String get helpImage;
+
+  /// No description provided for @primaryColor.
+  ///
+  /// In en, this message translates to:
+  /// **'Main colour, left button, {code}'**
+  String primaryColor(String code);
+
+  /// No description provided for @secondaryColor.
+  ///
+  /// In en, this message translates to:
+  /// **'Second colour, right button, {code}'**
+  String secondaryColor(String code);
+
+  /// No description provided for @swapColors.
+  ///
+  /// In en, this message translates to:
+  /// **'Swap the colours'**
+  String get swapColors;
+
+  /// No description provided for @helpColors.
+  ///
+  /// In en, this message translates to:
+  /// **'There are two colours: the main one for the left button and the second one, white at first, for the right button. On the palette, the left button picks the main colour and the right button the second; X swaps them. The eraser with the right button only takes away the main colour and keeps the rest.'**
+  String get helpColors;
 }
 
 class _AppLocalizationsDelegate

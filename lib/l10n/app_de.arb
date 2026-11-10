@@ -41,7 +41,6 @@
   "outline": "Nur Umriss",
   "filled": "Gefüllt",
   "moreColors": "Weitere Farben",
-  "currentColor": "Aktuelle Farbe, {code}",
   "colorSwatch": "Farbe {code}",
   "colorCode": "Farbcode",
   "position": "{x}, {y} px",
@@ -87,5 +86,9 @@
   "crop": "Auf Auswahl zuschneiden",
   "keepRatio": "Seitenverhältnis beibehalten",
   "apply": "Anwenden",
-  "helpImage": "Das Bildmenü in der Leiste ändert die Größe der Auswahl, dreht und spiegelt sie, oder die ganze Zeichnung, wenn nichts ausgewählt ist. Blattgröße fügt Papier hinzu oder schneidet die Ränder ab, ohne zu strecken, und Zuschneiden behält nur die Auswahl. Strg+W ändert die Größe, Strg+E das Blatt, Strg+R und Strg+Umschalt+R drehen und Strg+Umschalt+X schneidet zu."
+  "helpImage": "Das Bildmenü in der Leiste ändert die Größe der Auswahl, dreht und spiegelt sie, oder die ganze Zeichnung, wenn nichts ausgewählt ist. Blattgröße fügt Papier hinzu oder schneidet die Ränder ab, ohne zu strecken, und Zuschneiden behält nur die Auswahl. Strg+W ändert die Größe, Strg+E das Blatt, Strg+R und Strg+Umschalt+R drehen und Strg+Umschalt+X schneidet zu.",
+  "primaryColor": "Hauptfarbe, linke Taste, {code}",
+  "secondaryColor": "Zweitfarbe, rechte Taste, {code}",
+  "swapColors": "Farben tauschen",
+  "helpColors": "Es gibt zwei Farben: die Hauptfarbe für die linke Taste und die Zweitfarbe, anfangs Weiß, für die rechte. In der Palette wählt die linke Taste die Hauptfarbe und die rechte die Zweitfarbe; X tauscht sie. Der Radierer mit der rechten Taste entfernt nur die Hauptfarbe und lässt den Rest."
 }

@@ -6,6 +6,34 @@ int pixelAt(Uint8List rgba, int width, int x, int y) {
   return rgba[i + 3] << 24 | rgba[i] << 16 | rgba[i + 1] << 8 | rgba[i + 2];
 }
 
+/// Paints [to] where [mask] has ink and [rgba] is close to [from]. Null when
+/// no pixel changes.
+Uint8List? replaceUnderMask({
+  required Uint8List rgba,
+  required Uint8List mask,
+  required int from,
+  required int to,
+  int tolerance = 40,
+}) {
+  final out = Uint8List.fromList(rgba);
+  final source = [from >> 16 & 0xFF, from >> 8 & 0xFF, from & 0xFF];
+  final target = [to >> 16 & 0xFF, to >> 8 & 0xFF, to & 0xFF, to >> 24 & 0xFF];
+  var changed = false;
+  for (var i = 0; i < rgba.length; i += 4) {
+    if (mask[i + 3] == 0) continue;
+    var close = true;
+    for (var c = 0; c < 3; c++) {
+      if ((rgba[i + c] - source[c]).abs() > tolerance) close = false;
+    }
+    if (!close) continue;
+    for (var c = 0; c < 4; c++) {
+      out[i + c] = target[c];
+    }
+    changed = true;
+  }
+  return changed ? out : null;
+}
+
 /// What the paint bucket needs. A class, so that it can go to an isolate.
 class FillRequest {
   const FillRequest({

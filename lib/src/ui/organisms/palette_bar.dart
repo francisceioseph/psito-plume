@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../paint/plume_controller.dart';
 import '../atoms/colors.dart';
-import '../molecules/current_color_button.dart';
+import '../molecules/color_pair.dart';
 import '../molecules/palette_grid.dart';
 import '../molecules/status_info.dart';
 import 'color_dialog.dart';
@@ -13,9 +13,14 @@ class PaletteBar extends StatelessWidget {
 
   final PlumeController controller;
 
-  Future<void> _more(BuildContext context) async {
-    final chosen = await showColorDialog(context, controller.color);
-    if (chosen != null) controller.setColor(chosen);
+  Future<void> _more(BuildContext context, {bool secondary = false}) async {
+    final c = controller;
+    final chosen = await showColorDialog(
+      context,
+      secondary ? c.secondary : c.color,
+    );
+    if (chosen == null) return;
+    secondary ? c.setSecondary(chosen) : c.setColor(chosen);
   }
 
   @override
@@ -24,9 +29,12 @@ class PaletteBar extends StatelessWidget {
     padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
     child: Row(
       children: [
-        CurrentColorButton(
-          color: controller.color,
-          onTap: () => _more(context),
+        ColorPair(
+          primary: controller.color,
+          secondary: controller.secondary,
+          onPrimaryTap: () => _more(context),
+          onSecondaryTap: () => _more(context, secondary: true),
+          onSwap: controller.swapColors,
         ),
         const SizedBox(width: 12),
         Expanded(
@@ -38,6 +46,7 @@ class PaletteBar extends StatelessWidget {
                 colors: paletteColors,
                 selected: controller.color,
                 onChosen: controller.setColor,
+                onSecondaryChosen: controller.setSecondary,
               ),
             ),
           ),

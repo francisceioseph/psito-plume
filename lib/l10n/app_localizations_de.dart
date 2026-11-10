@@ -141,11 +141,6 @@ class AppLocalizationsDe extends AppLocalizations {
   String get moreColors => 'Weitere Farben';
 
   @override
-  String currentColor(String code) {
-    return 'Aktuelle Farbe, $code';
-  }
-
-  @override
   String colorSwatch(String code) {
     return 'Farbe $code';
   }
@@ -299,4 +294,21 @@ class AppLocalizationsDe extends AppLocalizations {
   @override
   String get helpImage =>
       'Das Bildmenü in der Leiste ändert die Größe der Auswahl, dreht und spiegelt sie, oder die ganze Zeichnung, wenn nichts ausgewählt ist. Blattgröße fügt Papier hinzu oder schneidet die Ränder ab, ohne zu strecken, und Zuschneiden behält nur die Auswahl. Strg+W ändert die Größe, Strg+E das Blatt, Strg+R und Strg+Umschalt+R drehen und Strg+Umschalt+X schneidet zu.';
+
+  @override
+  String primaryColor(String code) {
+    return 'Hauptfarbe, linke Taste, $code';
+  }
+
+  @override
+  String secondaryColor(String code) {
+    return 'Zweitfarbe, rechte Taste, $code';
+  }
+
+  @override
+  String get swapColors => 'Farben tauschen';
+
+  @override
+  String get helpColors =>
+      'Es gibt zwei Farben: die Hauptfarbe für die linke Taste und die Zweitfarbe, anfangs Weiß, für die rechte. In der Palette wählt die linke Taste die Hauptfarbe und die rechte die Zweitfarbe; X tauscht sie. Der Radierer mit der rechten Taste entfernt nur die Hauptfarbe und lässt den Rest.';
 }
