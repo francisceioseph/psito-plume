@@ -125,8 +125,35 @@ void main() {
     expect(find.byType(TextField), findsOneWidget);
 
     await tester.enterText(find.byType(TextField), 'pato');
-    await tester.sendKeyEvent(LogicalKeyboardKey.keyP);
-    expect(c.tool, Tool.text, reason: 'a letter typed in the text picks no tool');
+    // Every key the page knows reaches the text: the page must not take it.
+    for (final key in [
+      LogicalKeyboardKey.keyP,
+      LogicalKeyboardKey.keyX,
+      LogicalKeyboardKey.keyS,
+      LogicalKeyboardKey.keyA,
+    ]) {
+      expect(
+        await tester.sendKeyEvent(key),
+        isFalse,
+        reason: '${key.keyLabel} must go to the text',
+      );
+    }
+    expect(c.tool, Tool.text);
+    expect(c.secondary, const Color(0xFFFFFFFF), reason: 'X swapped nothing');
+
+    // Delete, with the caret at the start, takes away the first letter.
+    final field = tester.state<EditableTextState>(find.byType(EditableText));
+    field.userUpdateTextEditingValue(
+      const TextEditingValue(
+        text: 'pato',
+        selection: TextSelection.collapsed(offset: 0),
+      ),
+      SelectionChangedCause.keyboard,
+    );
+    await tester.pump();
+    await tester.sendKeyEvent(LogicalKeyboardKey.delete);
+    await tester.pump();
+    expect(field.textEditingValue.text, 'ato');
 
     await tester.sendKeyEvent(LogicalKeyboardKey.enter);
     await settle(tester, c);

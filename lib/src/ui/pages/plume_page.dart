@@ -346,6 +346,27 @@ class PlumePageState extends State<PlumePage> {
     ];
   }
 
+  /// Whether the keyboard is in a text field, which then gets every key.
+  bool get _typing {
+    final focused = FocusManager.instance.primaryFocus?.context;
+    return focused != null &&
+        (focused.widget is EditableText ||
+            focused.findAncestorStateOfType<EditableTextState>() != null);
+  }
+
+  /// The shortcuts of the page. While a text is being typed none of them
+  /// runs, so that letters, Delete and the rest reach the text.
+  KeyEventResult _onKey(FocusNode node, KeyEvent event) {
+    if (event is KeyUpEvent || _typing) return KeyEventResult.ignored;
+    for (final MapEntry(key: activator, value: run) in _shortcuts.entries) {
+      if (activator.accepts(event, HardwareKeyboard.instance)) {
+        run();
+        return KeyEventResult.handled;
+      }
+    }
+    return KeyEventResult.ignored;
+  }
+
   @override
   Widget build(BuildContext context) {
     final c = _controller;
@@ -357,8 +378,10 @@ class PlumePageState extends State<PlumePage> {
     );
     return Scaffold(
       backgroundColor: PsitoColors.felt,
-      body: CallbackShortcuts(
-        bindings: _shortcuts,
+      body: Focus(
+        canRequestFocus: false,
+        skipTraversal: true,
+        onKeyEvent: _onKey,
         child: Focus(
           autofocus: true,
           child: Listener(
